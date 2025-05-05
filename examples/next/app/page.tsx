@@ -1,8 +1,8 @@
 'use client';
-import { MonitorWidget } from '../../../src/integrations/react';
+// import { MonitorWidget } from '../../../src/integrations/react';
 // import { MonitorWidget } from '../../../dist/react.mjs';
 
-// import { MonitorWidget } from 'monitor-widget/react';
+import { MonitorWidget } from 'monitor-widget/react';
 
 export default function Page() {
   return (

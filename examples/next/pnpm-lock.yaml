@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       monitor-widget:
-        specifier: ^1.0.11
-        version: 1.0.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vue@3.5.13)
+        specifier: ^1.0.12
+        version: 1.0.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vue@3.5.13)
       next:
         specifier: ^14
         version: 14.2.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -168,8 +168,8 @@ packages:
   magic-string@0.30.17:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
 
-  monitor-widget@1.0.11:
-    resolution: {integrity: sha512-2+UI8MbXpbm5s4zu1G/0h0Zl5ngwKzvgcY2blh/eIoHT5wuIfQv4Axzefj8mntzVJL3KLUns1kd1Wc3hcg3N5w==}
+  monitor-widget@1.0.12:
+    resolution: {integrity: sha512-tNz5ggqQ8j6TajICzuUbUvkFoHQhdM95eHoW68lFNKoST0JFUw0SnzeTNHpDNPAg+hCm6A9W6Z7OYjN479j9Lg==}
     peerDependencies:
       react: ^18
       react-dom: ^18
@@ -386,7 +386,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  monitor-widget@1.0.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vue@3.5.13):
+  monitor-widget@1.0.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vue@3.5.13):
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
