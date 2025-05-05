@@ -5,7 +5,7 @@ export function createFailedSubgraphStatus(id: string): SubgraphStatus {
     subgraphId: id,
     latencyTime: 0,
     latencyBlocks: 0,
-    health: 'error',
+    health: 'unknown',
     lastUpdated: Date.now(),
     failed: true,
   };

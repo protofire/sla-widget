@@ -1,7 +1,8 @@
 'use client';
-// import { MonitorWidget } from '../../../src/integrations/react';
+import { MonitorWidget } from '../../../src/integrations/react';
+// import { MonitorWidget } from '../../../dist/react.mjs';
 
-import { MonitorWidget } from 'monitor-widget/react';
+// import { MonitorWidget } from 'monitor-widget/react';
 
 export default function Page() {
   return (
@@ -15,37 +16,28 @@ export default function Page() {
           'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
           'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
           'QmcGipHy56ezZGdp1EqWEXEHTbVnBVw1vxXfTEhC3DJZJz',
+          'QmQSpt7SnnDssnWbm1e8ZEEmifXxmvwPxRigrF5RZAKqRf',
         ]}
-        statusEndpoint="http://localhost:3000"
+        statusEndpoint="https://mock-proof-service.vercel.app/api/status"
         refreshIntervalMs={1000000}
         theme="light"
       />
       <h3>dark</h3>
-      {/* <MonitorWidget
+      <MonitorWidget
         subgraphIds={[
-          'QmZ55uVFQXodW33oPS5nD9DcpM7PEjU2ZJ96pxMS1mpgyy',
-          'QmdjHSGHCp5wQ6gmr4vhMD8GLe1zK6XK4meG43TewfLToL',
-          'QmQSpt7SnnDssnWbm1e8ZEEmifXxmvwPxRigrF5RZAKqRf',
-          'QmPo6GrH1A3SAQqRnScTtDy5Y7tDaK1jsfuNDG7WZftVnY',
-          'QmZ55uVFQXodW33oPS5nD9DcpM7PEjU2ZJ96pxMS1mpsyy',
-          'QmdjHSGHCp5wQ6gmr4vhMD8GLe1zK6XK4meG43TawfLToL',
-          'QmQSpt7SnnDssnWbm1e8ZEEmifXxmvwPxRigra5RZAKqRf',
-          'QmPo6GrH1A3SAQqRnScTtDy5Y7tDaK1jsfuNdq7WZftVnY',
+          'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
+          'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
+          'QmcGipHy56ezZGdp1EqWEXEHTbVnBVw1vxXfTEhC3DJZJz',
         ]}
-        statusEndpoint="http://localhost:3000"
+        statusEndpoint="https://mock-proof-service.vercel.app/api/status"
         refreshIntervalMs={1000000}
-      /> */}
+      />
 
       <h2>Single Subgraph</h2>
+
       <MonitorWidget
         subgraphIds={['QmcGipHy56ezZGdp1EqWEXEHTbVnBVw1vxXfTEhC3DJZJz']}
-        statusEndpoint="http://localhost:3000"
-        refreshIntervalMs={1000000}
-        theme="highContrast"
-      />
-      <MonitorWidget
-        subgraphIds={['QmcGipHy56ezZGdp1EqWEXEHTbVnBVw1vxXfTEhC3DJZJz']}
-        statusEndpoint="http://localhost:3000"
+        statusEndpoint="https://mock-proof-service.vercel.app/api/status"
         refreshIntervalMs={1000000}
         theme="dark"
       />

@@ -13,7 +13,7 @@ export async function fetchSubgraphStatuses(
       const response = await fetch(`${statusEndpoint}/${id}`);
 
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
+        return createFailedSubgraphStatus(id);
       }
 
       const rawStatus: RawStatus = await response.json();

@@ -1,6 +1,5 @@
 export interface ConcurrencyResult<T> {
   successes: T[];
-  failures: { index: number; error: unknown }[];
 }
 
 export async function runWithConcurrencyLimit<T>(
@@ -8,7 +7,6 @@ export async function runWithConcurrencyLimit<T>(
   concurrencyLimit: number,
 ): Promise<ConcurrencyResult<T>> {
   const successes: T[] = [];
-  const failures: { index: number; error: unknown }[] = [];
   let currentIndex = 0;
 
   async function worker() {
@@ -19,7 +17,6 @@ export async function runWithConcurrencyLimit<T>(
         successes[idx] = result;
       } catch (error) {
         console.error(`Task ${idx} failed`, error);
-        failures.push({ index: idx, error });
       }
     }
   }
@@ -28,5 +25,5 @@ export async function runWithConcurrencyLimit<T>(
 
   await Promise.all(workers);
 
-  return { successes, failures };
+  return { successes };
 }

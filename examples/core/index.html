@@ -28,24 +28,23 @@
     <div id="monitor-container-one"></div>
 
     <script type="module">
-      // import { WidgetApp } from 'https://cdn.jsdelivr.net/npm/monitor-widget/dist/core.mjs';
-      import { WidgetApp } from '../../dist/core.mjs';
+      import { WidgetApp } from 'https://cdn.jsdelivr.net/npm/monitor-widget/dist/core.mjs';
+      // import { WidgetApp } from '../../dist/core.mjs';
 
       const appMany = new WidgetApp({
         subgraphIds: [
-          'QmZ55uVFQXodW33oPS5nD9DcpM7PEjU2ZJ96pxMS1mpgyy',
-          'QmdjHSGHCp5wQ6gmr4vhMD8GLe1zK6XK4meG43TewfLToL',
-          'QmQSpt7SnnDssnWbm1e8ZEEmifXxmvwPxRigrF5RZAKqRf',
-          'QmPo6GrH1A3SAQqRnScTtDy5Y7tDaK1jsfuNDG7WZftVnY',
+          'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
+          'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
+          'QmcGipHy56ezZGdp1EqWEXEHTbVnBVw1vxXfTEhC3DJZJz',
         ],
-        statusEndpoint: 'http://localhost:3000',
+        statusEndpoint: 'https://mock-proof-service.vercel.app/api/status',
         refreshIntervalMs: 10000,
         theme: 'light',
       });
 
       const appOne = new WidgetApp({
-        subgraphIds: ['QmZ55uVFQXodW33oPS5nD9DcpM7PEjU2ZJ96pxMS1mpgyy'],
-        statusEndpoint: 'http://localhost:3000',
+        subgraphIds: ['QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa'],
+        statusEndpoint: 'https://mock-proof-service.vercel.app/api/status',
         refreshIntervalMs: 10000,
       });
 

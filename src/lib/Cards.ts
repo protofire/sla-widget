@@ -32,6 +32,7 @@ export class WidgetCards {
         'summary',
         summary.worst,
         summary.lastUpdated,
+        summary,
       ),
       this.createBodySummary(summary),
     ]);
@@ -85,43 +86,82 @@ export class WidgetCards {
     mode: 'single' | 'summary',
     aria: Health,
     lastUpdated: number,
+    summary?: SummaryData,
   ) {
     return createElement('header', { className: 'card-header' }, [
       createElement('h2', {}, this.getTitle(health, mode)),
       createElement('div', { className: 'card-status', 'aria-label': aria }, [
         this.tooltip.createTrigger(
           createElement('span', { className: `status-dot ${health}` }),
-          this.statusTooltipText(health),
+          this.statusTooltipText(health, mode, summary),
         ),
-        createElement(
-          'span',
-          { className: 'status-updated' },
-          fmtAgo(lastUpdated),
+        this.tooltip.createTrigger(
+          createElement(
+            'span',
+            { className: 'status-updated' },
+            fmtAgo(lastUpdated),
+          ),
+          'Timestamp of the last successful health check',
         ),
       ]),
     ]);
   }
 
-  private statusTooltipText(health: Health): HTMLElement {
-    const tooltips: Record<Health, HTMLElement> = {
-      ok: createElement('div', {}, [
-        createElement('strong', {}, '✅ OK:'),
-        'Everything is running smoothly.',
-      ]),
-      warning: createElement('div', {}, [
-        createElement('strong', {}, '⚠️ Warning:'),
-        'Increased latency detected.',
-      ]),
-      error: createElement('div', {}, [
-        createElement('strong', {}, '❌ Error:'),
-        'Subgraph is down.',
-      ]),
-      unknown: createElement('div', {}, [
-        createElement('strong', {}, '❓ Unknown:'),
-        'Health status is unavailable.',
-      ]),
+  private statusTooltipText(
+    health: Health,
+    mode: 'single' | 'summary',
+    summary?: SummaryData,
+  ): HTMLElement {
+    const total =
+      summary && summary.ok + summary.warning + summary.error + summary.unknown;
+
+    const tooltips: Record<
+      Health,
+      { single: HTMLElement; summary: HTMLElement }
+    > = {
+      ok: {
+        single: createElement('div', {}, [
+          createElement('strong', {}, '✅ OK:'),
+          'Everything is running smoothly.',
+        ]),
+        summary: createElement('div', {}, [
+          createElement('strong', {}, '✅ OK:'),
+          `All ${summary && summary.ok} subgraphs are active.`,
+        ]),
+      },
+      warning: {
+        single: createElement('div', {}, [
+          createElement('strong', {}, '⚠️ Warning:'),
+          'Increased latency detected.',
+        ]),
+        summary: createElement('div', {}, [
+          createElement('strong', {}, '⚠️ Warning:'),
+          `${summary ? summary.warning + ' of ' + total : 'Some '} subgraphs have latency.`,
+        ]),
+      },
+      error: {
+        single: createElement('div', {}, [
+          createElement('strong', {}, '❌ Error:'),
+          'Subgraph is down.',
+        ]),
+        summary: createElement('div', {}, [
+          createElement('strong', {}, '⚠️'),
+
+          `${summary ? summary.error + ' of ' + total : 'Some '} subgraphs are down.`,
+        ]),
+      },
+      unknown: {
+        single: createElement('div', {}, [
+          createElement('strong', {}, '❓ Unknown:'),
+          'Health status is unavailable.',
+        ]),
+        summary: createElement('div', {}, [
+          createElement('strong', {}, '❓'),
+          `${summary ? summary.unknown + ' of ' + total : 'Some '} subgraphs are unavailable.`,
+        ]),
+      },
     };
-    return tooltips[health];
+    return tooltips[health][mode];
   }
 
   private createBodySummary(summary: SummaryData) {
@@ -173,7 +213,10 @@ export class WidgetCards {
       else unknown++;
 
       if (this.isWorse(s.health, worst)) worst = s.health;
-      if (s.lastUpdated > lastUpdated) lastUpdated = s.lastUpdated;
+
+      if (!s.failed && s.lastUpdated > lastUpdated) {
+        lastUpdated = s.lastUpdated;
+      }
     });
 
     return {
@@ -189,10 +232,8 @@ export class WidgetCards {
   }
 
   private getOverallHealth(summary: SummaryData): Health {
-    const { ok, warning, error, unknown } = summary;
-    if (unknown > 0 && unknown === ok + warning + error + unknown) {
-      return 'unknown';
-    }
+    const { warning, error, unknown } = summary;
+    if (unknown > 0) return 'unknown';
     if (error > 0) return 'error';
     if (warning > 0) return 'warning';
     return 'ok';
@@ -208,7 +249,7 @@ export class WidgetCards {
       error: { single: 'Service is Down', summary: 'Some subgraphs are Down' },
       unknown: {
         single: 'Monitoring Unavailable',
-        summary: 'Monitoring Unavailable',
+        summary: 'Some subgraphs are unavailable.',
       },
     };
     return titles[health][mode];
@@ -260,6 +301,7 @@ export const cardsStyles = /* css */ `
   }
 
   .card-header h2 {
+    max-width: 262px;
     font-size: 16px;
     margin: 0;
   }
