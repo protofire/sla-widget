@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Monitor Widget - Core Vanilla Example</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 40px;
+      }
+      h1,
+      h2 {
+        margin-bottom: 16px;
+      }
+      #monitor-container-many,
+      #monitor-container-one {
+        margin-bottom: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Monitor Widget - Core Vanilla Playground</h1>
+
+    <h2>Multiple Subgraphs</h2>
+    <div id="monitor-container-many"></div>
+
+    <h2>Single Subgraph</h2>
+    <div id="monitor-container-one"></div>
+
+    <script type="module">
+      // import { WidgetApp } from 'https://cdn.jsdelivr.net/npm/monitor-widget/dist/core.mjs';
+      import { WidgetApp } from '../../dist/core.mjs';
+
+      const appMany = new WidgetApp({
+        subgraphIds: [
+          'QmZ55uVFQXodW33oPS5nD9DcpM7PEjU2ZJ96pxMS1mpgyy',
+          'QmdjHSGHCp5wQ6gmr4vhMD8GLe1zK6XK4meG43TewfLToL',
+          'QmQSpt7SnnDssnWbm1e8ZEEmifXxmvwPxRigrF5RZAKqRf',
+          'QmPo6GrH1A3SAQqRnScTtDy5Y7tDaK1jsfuNDG7WZftVnY',
+        ],
+        statusEndpoint: 'http://localhost:3000',
+        refreshIntervalMs: 10000,
+        theme: 'light',
+      });
+
+      const appOne = new WidgetApp({
+        subgraphIds: ['QmZ55uVFQXodW33oPS5nD9DcpM7PEjU2ZJ96pxMS1mpgyy'],
+        statusEndpoint: 'http://localhost:3000',
+        refreshIntervalMs: 10000,
+      });
+
+      appMany.render(document.getElementById('monitor-container-many'));
+      appOne.render(document.getElementById('monitor-container-one'));
+    </script>
+  </body>
+</html>

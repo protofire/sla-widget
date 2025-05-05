@@ -1,0 +1,36 @@
+{
+  "name": "monitor-widget",
+  "version": "1.0.11",
+  "description": "Cross-framework Widget for Subgraph Monitoring",
+  "main": "./dist/core.mjs",
+  "types": "./dist/core.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/vanilla.mjs",
+      "types": "./dist/vanilla.d.ts"
+    },
+    "./react": {
+      "import": "./dist/react.mjs",
+      "types": "./dist/react.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "vite build"
+  },
+  "peerDependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "vue": "^3"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "prettier-plugin-embed": "^0.5.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.3",
+    "vite-plugin-dts": "^4.5.3"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false
+}
