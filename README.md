@@ -1,102 +1,143 @@
-# Monitor Widget
+# 🧭 Monitor Widget
 
-**A lightweight web component and React component for monitoring subgraph
-statuses.**  
-Supports vanilla JS, React, Next.js, and CDN usage.
+**A lightweight component for monitoring subgraph statuses.** Supports vanilla
+JS, React, Next.js, and CDN integration.
 
 ---
 
 ## ✨ Features
 
-- 🚀 Easily embeddable via Web Components or React.
-- 🎨 Supports light/dark/auto themes.
-- 🔄 Auto-refreshing subgraph statuses.
-- 🔥 Minimal bundle size.
-- 🌍 CDN-ready or installable via npm.
+- 🚀 **Easy integration** with Web Components, React, or plain JS
+- 🎨 **Supports** `light`, `dark`, and `auto` themes
+- 🔄 **Automatic refreshing** of subgraph statuses
+- ⚠️ **Robust error handling** for partial or failed responses
+- 🌍 **CDN-ready** or available via npm
+- 📦 **Minimal bundle size**
 
 ---
 
 ## 📦 Installation
 
-### npm
+### Using npm
 
 ```bash
 npm install monitor-widget
-```
-
-or
-
-```bash
+# or
 yarn add monitor-widget
 ```
 
-CDN (unpkg or jsDelivr)
+### Using CDN
 
-```bash
-<script type="module" src="https://cdn.jsdelivr.net/npm/monitor-widget/dist/vanilla.mjs"></script>
+```html
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/monitor-widget@latest/dist/vanilla.mjs"
+></script>
 ```
 
 ---
 
-🚀 Usage
+## 🚀 Quick Start
 
-1. Vanilla JS (Web Component)
+### Vanilla JS (Web Component)
 
-Import the Web Component (via npm build or CDN):
+```html
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/monitor-widget@latest/dist/vanilla.mjs"
+></script>
 
-```bash
-<script type="module" src="https://cdn.jsdelivr.net/npm/monitor-widget/dist/vanilla.mjs"></script>
+<monitor-widget
+  subgraph-ids="Qm123...,Qm456..."
+  status-endpoint="http://localhost:3000/status"
+  refresh-interval-ms="10000"
+  theme="auto"
+></monitor-widget>
 ```
 
-Then use the `<monitor-widget>` tag:
+### Attributes
 
-```bash
-<monitor-widget subgraph-ids="Qm123...,Qm456...,Qm789..."
-status-endpoint="http://localhost:3000/status" refresh-interval-ms="10000"
-theme="auto" <!-- "light" | "dark" | "auto" -->
-```
-
-> </monitor-widget>
-
-Attributes:
-
-Attribute Type Required Description subgraph-ids string ✅ Comma-separated IPFS
-subgraph IDs status-endpoint string ✅ Endpoint URL to fetch statuses
-refresh-interval-ms number ❌ Auto-refresh interval (ms) (default 30s) theme
-string ❌ "light", "dark", or "auto" (default "auto")
+| Attribute             | Type     | Required | Description                                                                                                                                                                |
+| --------------------- | -------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `subgraph-ids`        | `string` | ✅       | Comma-separated list of subgraph IDs                                                                                                                                       |
+| `status-endpoint`     | `string` | ✅       | API endpoint URL for fetching subgraph status                                                                                                                              |
+| `refresh-interval-ms` | `number` | ❌       | Refresh interval in milliseconds (default 30000). ⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
+| `theme`               | `string` | ❌       | Theme mode: `light`, `dark`, or `auto` (default)                                                                                                                           |
 
 ---
 
-2. React / Next.js
+### React / Next.js
 
-Import the React wrapper:
-
-```bash
+```tsx
 import { MonitorWidget } from 'monitor-widget/react';
-```
 
-Use it like a standard component:
-
-```bash
 <MonitorWidget
-  subgraphIds={[ 'QmZ55uVFQXodW33oPS5nD9DcpM7PEjU2ZJ96pxMS1mpgyy', 'QmdjHSGHCp5wQ6gmr4vhMD8GLe1zK6XK4meG43TewfLToL', ]}
+  subgraphIds={['Qm123...', 'Qm456...']}
   statusEndpoint="http://localhost:3000/status"
   refreshIntervalMs={10000}
-  theme="auto" // or "light" | "dark"
-/>
+  theme="auto" // "light" | "dark"
+/>;
 ```
 
-Props:
+### Props
 
-Prop Type Required Description subgraphIds string[] ✅ Array of IPFS subgraph
-IDs statusEndpoint string ✅ Endpoint URL to fetch statuses refreshIntervalMs
-number ❌ Auto-refresh interval (default 30s) theme string ❌ "light", "dark",
-or "auto" (default "auto")
+| Prop                | Type       | Required | Description                                                                                                                                                                |
+| ------------------- | ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `subgraphIds`       | `string[]` | ✅       | Array of subgraph IDs                                                                                                                                                      |
+| `statusEndpoint`    | `string`   | ✅       | API endpoint URL for fetching subgraph status                                                                                                                              |
+| `refreshIntervalMs` | `number`   | ❌       | Refresh interval in milliseconds (default: 30000).⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
+| `theme`             | `string`   | ❌       | Theme mode: `light`, `dark`, or `auto` (default)                                                                                                                           |
 
 ---
 
-🖌️ Customization
+### Core JS via CDN
 
-The widget automatically adjusts to light and dark themes based on
-prefers-color-scheme. You can override the theme manually by setting
-theme="light", theme="dark", or theme="auto".
+```html
+<div id="monitor-container"></div>
+
+<script type="module">
+  import { WidgetApp } from 'https://cdn.jsdelivr.net/npm/monitor-widget@latest/dist/core.mjs';
+
+  const app = new WidgetApp({
+    subgraphIds: ['Qm123...', 'Qm456...'],
+    statusEndpoint: 'http://localhost:3000/status',
+    refreshIntervalMs: 10000,
+    theme: 'auto', // "light" | "dark"
+  });
+
+  app.render(document.getElementById('monitor-container'));
+</script>
+```
+
+### Options
+
+| Option              | Type       | Required | Description                                                                                                                                                    |
+| ------------------- | ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `subgraphIds`       | `string[]` | ✅       | Array of subgraph IDs                                                                                                                                          |
+| `statusEndpoint`    | `string`   | ✅       | API endpoint URL for fetching subgraph status                                                                                                                  |
+| `refreshIntervalMs` | `number`   | ❌       | Refresh interval (default: 30000 ms). ⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
+| `theme`             | `string`   | ❌       | Theme mode: `light`, `dark`, or `auto` (default)                                                                                                               |
+
+---
+
+## 🖌️ Theme Customization
+
+The widget supports the following themes:
+
+- 🌙 **Dark mode**
+- ☀️ **Light mode**
+- ⚙️ **Auto mode** (based on user's OS preference)
+
+Customize further by overriding CSS variables or adding your own styles.
+
+---
+
+## ⚡️ Contributing
+
+Feel free to open issues, submit pull requests, or suggest improvements!
+
+---
+
+## 📄 License
+
+MIT

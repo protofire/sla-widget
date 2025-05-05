@@ -1,8 +1,8 @@
 'use client';
-// import { MonitorWidget } from '../../../src/integrations/react';
+import { MonitorWidget } from '../../../src/integrations/react';
 // import { MonitorWidget } from '../../../dist/react.mjs';
 
-import { MonitorWidget } from 'monitor-widget/react';
+// import { MonitorWidget } from 'monitor-widget/react';
 
 export default function Page() {
   return (
@@ -18,7 +18,8 @@ export default function Page() {
           'QmcGipHy56ezZGdp1EqWEXEHTbVnBVw1vxXfTEhC3DJZJz',
           'QmQSpt7SnnDssnWbm1e8ZEEmifXxmvwPxRigrF5RZAKqRf',
         ]}
-        statusEndpoint="https://mock-proof-service.vercel.app/api/status"
+        // statusEndpoint="https://mock-proof-service.vercel.app/api/status"
+        statusEndpoint="http://localhost:3000/api/status"
         refreshIntervalMs={1000000}
         theme="light"
       />

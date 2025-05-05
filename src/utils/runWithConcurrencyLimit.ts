@@ -1,29 +1,34 @@
-export interface ConcurrencyResult<T> {
-  successes: T[];
-}
-
+/**
+ * Executes a list of async tasks with a concurrency limit.
+ *
+ * Tasks are executed in parallel, but never more than `concurrencyLimit` at the same time.
+ * Useful when making many network requests without overloading the server.
+ *
+ * Failed tasks are logged but skipped; only successful results are returned.
+ *
+ * @template T - Type of task result
+ * @param tasks - Array of functions that return a Promise<T>
+ * @param concurrencyLimit - Maximum number of tasks to run in parallel
+ * @returns Promise resolving to an object containing all successful results
+ */
 export async function runWithConcurrencyLimit<T>(
   tasks: (() => Promise<T>)[],
   concurrencyLimit: number,
-): Promise<ConcurrencyResult<T>> {
-  const successes: T[] = [];
-  let currentIndex = 0;
+): Promise<{ successes: T[] }> {
+  const results: T[] = new Array(tasks.length);
+  let index = 0;
 
-  async function worker() {
-    while (currentIndex < tasks.length) {
-      const idx = currentIndex++;
+  const worker = async () => {
+    while (index < tasks.length) {
+      const currentIndex = index++;
       try {
-        const result = await tasks[idx]();
-        successes[idx] = result;
-      } catch (error) {
-        console.error(`Task ${idx} failed`, error);
+        results[currentIndex] = await tasks[currentIndex]();
+      } catch (e) {
+        console.error(`Task ${currentIndex} failed`, e);
       }
     }
-  }
+  };
 
-  const workers = Array.from({ length: concurrencyLimit }, () => worker());
-
-  await Promise.all(workers);
-
-  return { successes };
+  await Promise.all(Array.from({ length: concurrencyLimit }, worker));
+  return { successes: results };
 }
