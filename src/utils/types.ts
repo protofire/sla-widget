@@ -18,6 +18,7 @@ export interface RawStatus {
   latencyBlocks: number;
   latencyTime: number;
   syncStatus: 0 | 1 | 2;
+  submittersCount: number;
 }
 
 export interface SubgraphStatus {
@@ -27,6 +28,7 @@ export interface SubgraphStatus {
   health: Health;
   lastUpdated: number;
   failed?: boolean;
+  submittersCount: number;
 }
 
 export interface ElementProps {
@@ -44,4 +46,5 @@ export interface SummaryData {
   avgLatencyBlocks: number;
   worst: Health;
   lastUpdated: number;
+  submittersCount: number;
 }

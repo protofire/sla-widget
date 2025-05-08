@@ -1,44 +1,81 @@
 'use client';
-import { MonitorWidget } from '../../../src/integrations/react';
-// import { MonitorWidget } from '../../../dist/react.mjs';
 
-// import { MonitorWidget } from 'monitor-widget/react';
+const isDev = process.env.NODE_ENV === 'development';
+
+import { MonitorWidget as Dev } from '../../../src/integrations/react';
+import { MonitorWidget as Prod } from 'monitor-widget/react';
+const MonitorWidget = isDev ? Dev : Prod;
 
 export default function Page() {
+  const statusEndpoint = isDev
+    ? 'http://localhost:3002/api/status'
+    : 'https://mock-proof-service.vercel.app/api/status';
+
+  const subgraphIds = [
+    'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
+    'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
+  ];
+  const subgraphId = ['QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk'];
+  const subgraphIdLatency = ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency'];
+  const subgraphIdDown = ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Down'];
+
   return (
     <main style={{ padding: 40 }}>
       <h1>Monitor Widget - Next.js Playground</h1>
-
       <h2>Multiple Subgraphs</h2>
       <h3>light</h3>
       <MonitorWidget
-        subgraphIds={[
-          'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
-          'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
-          'QmcGipHy56ezZGdp1EqWEXEHTbVnBVw1vxXfTEhC3DJZJz',
-          'QmQSpt7SnnDssnWbm1e8ZEEmifXxmvwPxRigrF5RZAKqRf',
-        ]}
-        // statusEndpoint="https://mock-proof-service.vercel.app/api/status"
-        statusEndpoint="http://localhost:3000/api/status"
-        refreshIntervalMs={1000000}
+        subgraphIds={subgraphIds}
+        statusEndpoint={statusEndpoint}
         theme="light"
       />
       <h3>dark</h3>
       <MonitorWidget
-        subgraphIds={[
-          'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
-          'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
-          'QmcGipHy56ezZGdp1EqWEXEHTbVnBVw1vxXfTEhC3DJZJz',
-        ]}
-        statusEndpoint="https://mock-proof-service.vercel.app/api/status"
-        refreshIntervalMs={1000000}
+        subgraphIds={subgraphIds}
+        statusEndpoint={statusEndpoint}
+        theme="dark"
       />
-
       <h2>Single Subgraph</h2>
-
       <MonitorWidget
-        subgraphIds={['QmcGipHy56ezZGdp1EqWEXEHTbVnBVw1vxXfTEhC3DJZJz']}
-        statusEndpoint="https://mock-proof-service.vercel.app/api/status"
+        subgraphIds={subgraphId}
+        statusEndpoint={statusEndpoint}
+        refreshIntervalMs={1000000}
+        theme="light"
+      />
+      <br />
+      <MonitorWidget
+        subgraphIds={subgraphId}
+        statusEndpoint={statusEndpoint}
+        refreshIntervalMs={1000000}
+        theme="dark"
+      />
+      <br />
+      <h2>Latency Subgraph</h2>
+      <MonitorWidget
+        subgraphIds={subgraphIdLatency}
+        statusEndpoint={statusEndpoint}
+        refreshIntervalMs={1000000}
+        theme="light"
+      />
+      <br />
+      <MonitorWidget
+        subgraphIds={subgraphIdLatency}
+        statusEndpoint={statusEndpoint}
+        refreshIntervalMs={1000000}
+        theme="dark"
+      />
+      <br />
+      <h2>Down Subgraph</h2>
+      <MonitorWidget
+        subgraphIds={subgraphIdDown}
+        statusEndpoint={statusEndpoint}
+        refreshIntervalMs={1000000}
+        theme="light"
+      />
+      <br />{' '}
+      <MonitorWidget
+        subgraphIds={subgraphIdDown}
+        statusEndpoint={statusEndpoint}
         refreshIntervalMs={1000000}
         theme="dark"
       />

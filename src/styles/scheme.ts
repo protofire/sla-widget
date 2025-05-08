@@ -8,6 +8,7 @@ const sharedTokens = {
   '--monitor-warning-color': '#ff9800',
   '--monitor-error-color': '#f44336',
   '--monitor-unknown-color': '#9e9e9e',
+  '--monitor-blue-color': '#2196f3',
 };
 
 const lightTheme = {

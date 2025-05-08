@@ -20,6 +20,7 @@ export class WidgetTooltip {
     triggerEl: HTMLElement,
     content: string | HTMLElement,
   ): HTMLElement {
+    triggerEl.style.cursor = 'pointer';
     triggerEl.addEventListener('mouseenter', () => {
       if (this.hideTimeout) clearTimeout(this.hideTimeout);
       this.showTooltip(triggerEl, content);
@@ -95,7 +96,6 @@ export const tooltipStyles = /* css */ `
       opacity 0.2s ease,
       transform 0.2s ease;
     z-index: 9999;
-    white-space: nowrap;
     max-width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
