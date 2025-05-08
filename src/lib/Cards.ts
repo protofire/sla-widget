@@ -5,6 +5,7 @@ import { fmtLatency } from '../utils/fmtLatency';
 import { Health, SubgraphStatus, SummaryData } from '../utils/types';
 import { CopyIcon } from '../utils/icons';
 import { WidgetTooltip } from './Tooltip';
+import { TOOLTIP_TEXT } from '../utils/healthTextTooltip';
 
 export class WidgetCards {
   private tooltip: WidgetTooltip;
@@ -125,69 +126,25 @@ export class WidgetCards {
     mode: 'single' | 'summary',
     summary?: SummaryData,
   ): HTMLElement {
-    const total =
-      summary && summary.ok + summary.warning + summary.error + summary.unknown;
+    return mode === 'summary' && summary
+      ? TOOLTIP_TEXT[health].summary(summary)
+      : TOOLTIP_TEXT[health].single();
+  }
 
-    const tooltips: Record<
-      Health,
-      { single: HTMLElement; summary: HTMLElement }
-    > = {
-      ok: {
-        single: createElement('div', {}, [
-          createElement('strong', {}, '✅ OK:'),
-          'Everything is running smoothly.',
-        ]),
-        summary: createElement('div', {}, [
-          createElement('strong', {}, '✅ OK:'),
-          `All ${summary && summary.ok} subgraphs are active.`,
-        ]),
-      },
-      warning: {
-        single: createElement('div', {}, [
-          createElement('strong', {}, '⚠️ Warning:'),
-          'Increased latency detected.',
-        ]),
-        summary: createElement('div', {}, [
-          createElement('strong', {}, '⚠️ Warning:'),
-          `${summary ? summary.warning + ' of ' + total : 'Some '} subgraphs have latency.`,
-        ]),
-      },
-      error: {
-        single: createElement('div', {}, [
-          createElement('strong', {}, '❌ Error:'),
-          'Subgraph is down.',
-        ]),
-        summary: createElement('div', {}, [
-          createElement('strong', {}, '⚠️'),
-
-          `${summary ? summary.error + ' of ' + total : 'Some '} subgraphs are down.`,
-        ]),
-      },
-      unknown: {
-        single: createElement('div', {}, [
-          createElement('strong', {}, '❓ Unknown:'),
-          'Health status is unavailable.',
-        ]),
-        summary: createElement('div', {}, [
-          createElement('strong', {}, '❓'),
-          `${summary ? summary.unknown + ' of ' + total : 'Some '} subgraphs are unavailable.`,
-        ]),
-      },
-    };
-    return tooltips[health][mode];
+  private createParticipantsBlock(count: number, tooltip: string) {
+    return createElement('div', { className: 'card-submitters' }, [
+      `Consensus Participants:`,
+      createElement('span', {}, `${count} `),
+      this.tooltip.createTrigger(createElement('div', {}, ` ⓘ`), tooltip),
+    ]);
   }
 
   private createBodySummary(summary: SummaryData) {
     return createElement('div', { className: 'card-body' }, [
-      createElement('div', { className: 'card-submitters' }, [
-        `Consensus Participants:`,
-        createElement('span', {}, `${summary.submittersCount} `),
-        this.tooltip.createTrigger(
-          createElement('div', {}, ` ⓘ`),
-
-          'Average Number of unique participants who submitted proofs for this round.',
-        ),
-      ]),
+      this.createParticipantsBlock(
+        summary.submittersCount,
+        'Average Number of unique participants who submitted proofs for this round.',
+      ),
 
       createElement(
         'div',
@@ -204,16 +161,10 @@ export class WidgetCards {
 
   private createBodyNormal(status: SubgraphStatus) {
     return createElement('div', { className: 'card-body' }, [
-      createElement('div', { className: 'card-submitters' }, [
-        `Consensus Participants:`,
-        createElement('span', {}, `${status.submittersCount} `),
-
-        this.tooltip.createTrigger(
-          createElement('div', {}, ` ⓘ`),
-
-          'Number of unique Participants who submitted proofs for this round.',
-        ),
-      ]),
+      this.createParticipantsBlock(
+        status.submittersCount,
+        'Number of unique Participants who submitted proofs for this round.',
+      ),
 
       createElement('div', { className: 'card-subgraph' }, [
         `Subgraph: ${truncate(status.subgraphId)}`,

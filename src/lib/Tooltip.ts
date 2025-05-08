@@ -10,9 +10,12 @@ export class WidgetTooltip {
     this.attachTooltipListeners();
   }
 
-  setup(root: HTMLDivElement) {
+  setup(root: HTMLElement) {
     if (!root.contains(this.tooltipEl)) {
       root.appendChild(this.tooltipEl);
+      this.tooltipEl.style.visibility = 'hidden';
+      this.tooltipEl.style.position = 'absolute';
+      this.tooltipEl.style.zIndex = '9999';
     }
   }
 
@@ -51,15 +54,22 @@ export class WidgetTooltip {
       this.tooltipEl.appendChild(content);
     }
 
-    const rect = target.getBoundingClientRect();
-    const tooltipRect = this.tooltipEl.getBoundingClientRect();
-    const top = rect.top - tooltipRect.height - 8;
-    const left = rect.left + rect.width / 2 - tooltipRect.width / 2;
-
-    this.tooltipEl.style.top = `${Math.max(top, 4)}px`;
-    this.tooltipEl.style.left = `${Math.max(left, 4)}px`;
     this.tooltipEl.classList.remove('hidden');
     this.tooltipEl.classList.add('visible');
+    this.tooltipEl.style.visibility = 'hidden';
+    this.tooltipEl.style.display = 'block';
+
+    requestAnimationFrame(() => {
+      const rect = target.getBoundingClientRect();
+      const tooltipRect = this.tooltipEl.getBoundingClientRect();
+      const top = rect.top - tooltipRect.height - 8 + window.scrollY;
+      const left =
+        rect.left + rect.width / 2 - tooltipRect.width / 2 + window.scrollX;
+
+      this.tooltipEl.style.top = `${Math.max(top, 4)}px`;
+      this.tooltipEl.style.left = `${Math.max(left, 4)}px`;
+      this.tooltipEl.style.visibility = 'visible';
+    });
   }
 
   private scheduleHide() {
@@ -83,7 +93,6 @@ export class WidgetTooltip {
 
 export const tooltipStyles = /* css */ `
   .tooltip-container {
-    position: fixed;
     background: var(--tooltip-bg);
     color: var(--tooltip-text);
     padding: 6px 10px;
@@ -95,7 +104,6 @@ export const tooltipStyles = /* css */ `
     transition:
       opacity 0.2s ease,
       transform 0.2s ease;
-    z-index: 9999;
     max-width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;

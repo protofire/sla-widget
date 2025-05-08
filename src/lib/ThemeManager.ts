@@ -13,17 +13,15 @@ export class ThemeManager {
 
   applyTheme(target: ShadowRoot) {
     const tokens = getThemeTokens(this.mode);
-    const cssHash = Object.entries(tokens)
-      .map(([k, v]) => `${k}:${v}`)
-      .join(';');
+    const cssHash = JSON.stringify(tokens);
 
     if (this.currentCssHash === cssHash) return;
     this.currentCssHash = cssHash;
 
     const root = target.host as HTMLElement;
-    Object.entries(tokens).forEach(([key, val]) =>
-      root.style.setProperty(key, val),
-    );
+    for (const [key, val] of Object.entries(tokens)) {
+      root.style.setProperty(key, val);
+    }
   }
 
   setMode(mode: ThemeMode, target: ShadowRoot) {

@@ -51,7 +51,10 @@ export class WidgetControls {
   }
 
   setup(root: ShadowRoot) {
-    root.querySelectorAll('.controls-btn').forEach((btn) => {
+    const select = root.querySelector<HTMLSelectElement>('.controls-select');
+    const buttons = root.querySelectorAll<HTMLButtonElement>('.controls-btn');
+
+    buttons.forEach((btn) => {
       btn.addEventListener('click', (e) => {
         const target = e.currentTarget as HTMLButtonElement;
         const action = target.dataset.action;
@@ -72,7 +75,6 @@ export class WidgetControls {
       });
     });
 
-    const select = root.querySelector('.controls-select') as HTMLSelectElement;
     if (select) {
       select.addEventListener('change', (e) => {
         const value = parseInt((e.target as HTMLSelectElement).value, 10);
@@ -85,7 +87,7 @@ export class WidgetControls {
   }
 
   private syncSelect(root: ShadowRoot) {
-    const select = root.querySelector('.controls-select') as HTMLSelectElement;
+    const select = root.querySelector<HTMLSelectElement>('.controls-select');
     if (select) {
       select.value = this.renderer.getActiveIndex().toString();
     }

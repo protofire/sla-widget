@@ -24,14 +24,12 @@ export class WidgetCopyHandler {
 
   private showCopiedState(button: HTMLButtonElement) {
     button.classList.add('copied');
-    button.innerHTML = '';
-    button.appendChild(CheckIcon());
+    button.replaceChildren(CheckIcon());
     button.disabled = true;
 
     setTimeout(() => {
       button.classList.remove('copied');
-      button.innerHTML = '';
-      button.appendChild(CopyIcon());
+      button.replaceChildren(CopyIcon());
       button.disabled = false;
     }, 2000);
   }

@@ -18,10 +18,10 @@ export class WidgetApp {
 
   async render(host: HTMLElement) {
     this.shadowRoot = host.attachShadow({ mode: 'open' });
-
-    this.injectStyles();
-    this.applyTheme();
-
+    if (this.shadowRoot) {
+      this.styleInjector.inject(this.shadowRoot);
+      this.theming.applyTheme(this.shadowRoot);
+    }
     await this.renderer.loadAndRender(this.shadowRoot);
     this.theming.setupAutoMode(this.shadowRoot);
   }
@@ -51,17 +51,5 @@ export class WidgetApp {
 
   getTheming() {
     return this.theming;
-  }
-
-  private injectStyles() {
-    if (this.shadowRoot) {
-      this.styleInjector.inject(this.shadowRoot);
-    }
-  }
-
-  private applyTheme() {
-    if (this.shadowRoot) {
-      this.theming.applyTheme(this.shadowRoot);
-    }
   }
 }

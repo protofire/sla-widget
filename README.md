@@ -66,7 +66,7 @@ You can try out the widget live on
 | --------------------- | -------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `subgraph-ids`        | `string` | ✅       | Comma-separated list of subgraph IDs                                                                                                                                       |
 | `status-endpoint`     | `string` | ✅       | API endpoint URL for fetching subgraph status                                                                                                                              |
-| `refresh-interval-ms` | `number` | ❌       | Refresh interval in milliseconds (default 30000). ⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
+| `refresh-interval-ms` | `number` | ❌       | Refresh interval in milliseconds (default false). ⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
 | `theme`               | `string` | ❌       | Theme mode: `light`, `dark`, or `auto` (default)                                                                                                                           |
 
 ---
@@ -95,7 +95,7 @@ You can try out the widget live on
 | ------------------- | ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `subgraphIds`       | `string[]` | ✅       | Array of subgraph IDs                                                                                                                                                      |
 | `statusEndpoint`    | `string`   | ✅       | API endpoint URL for fetching subgraph status                                                                                                                              |
-| `refreshIntervalMs` | `number`   | ❌       | Refresh interval in milliseconds (default: 30000).⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
+| `refreshIntervalMs` | `number`   | ❌       | Refresh interval in milliseconds (default: false).⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
 | `theme`             | `string`   | ❌       | Theme mode: `light`, `dark`, or `auto` (default)                                                                                                                           |
 
 ---
@@ -126,12 +126,12 @@ You can try out the widget live on
 
 ### Options
 
-| Option              | Type       | Required | Description                                                                                                                                                    |
-| ------------------- | ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `subgraphIds`       | `string[]` | ✅       | Array of subgraph IDs                                                                                                                                          |
-| `statusEndpoint`    | `string`   | ✅       | API endpoint URL for fetching subgraph status                                                                                                                  |
-| `refreshIntervalMs` | `number`   | ❌       | Refresh interval (default: 30000 ms). ⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
-| `theme`             | `string`   | ❌       | Theme mode: `light`, `dark`, or `auto` (default)                                                                                                               |
+| Option              | Type       | Required | Description                                                                                                                                                 |
+| ------------------- | ---------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `subgraphIds`       | `string[]` | ✅       | Array of subgraph IDs                                                                                                                                       |
+| `statusEndpoint`    | `string`   | ✅       | API endpoint URL for fetching subgraph status                                                                                                               |
+| `refreshIntervalMs` | `number`   | ❌       | Refresh interval (default: false). ⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
+| `theme`             | `string`   | ❌       | Theme mode: `light`, `dark`, or `auto` (default)                                                                                                            |
 
 ---
 

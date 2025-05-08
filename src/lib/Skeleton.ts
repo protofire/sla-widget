@@ -21,22 +21,24 @@ export class WidgetSkeleton {
     root.appendChild(wrapper);
   }
 
-  private createControlsPlaceholder() {
-    const controls = createElement('div', { className: 'skeleton-controls' }, [
-      createElement('div', { className: 'skeleton skeleton-select' }),
-      createElement('div', { className: 'skeleton skeleton-button' }),
-      createElement('div', { className: 'skeleton skeleton-button' }),
-    ]);
-    return controls;
+  private createSkeletonLine(className: string) {
+    return createElement('div', { className: `skeleton ${className}` });
   }
 
   private createCardPlaceholder() {
-    const card = createElement('div', { className: 'skeleton-card' }, [
-      createElement('div', { className: 'skeleton skeleton-header' }),
-      createElement('div', { className: 'skeleton skeleton-line' }),
-      createElement('div', { className: 'skeleton skeleton-line short' }),
+    return createElement('div', { className: 'skeleton-card' }, [
+      this.createSkeletonLine('skeleton-header'),
+      this.createSkeletonLine('skeleton-line'),
+      this.createSkeletonLine('skeleton-line short'),
     ]);
-    return card;
+  }
+
+  private createControlsPlaceholder() {
+    return createElement('div', { className: 'skeleton-controls' }, [
+      this.createSkeletonLine('skeleton-select'),
+      this.createSkeletonLine('skeleton-button'),
+      this.createSkeletonLine('skeleton-button'),
+    ]);
   }
 
   private createFooterPlaceholder() {

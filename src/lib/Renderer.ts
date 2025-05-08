@@ -21,6 +21,8 @@ export class WidgetRenderer {
   private refreshIntervalId: number | null = null;
   private activeIndex: number = -1;
   private error: string | null = null;
+  private articleEl: HTMLElement | null = null;
+  private onDataUpdated?: (statuses: SubgraphStatus[]) => void;
 
   constructor(app: WidgetApp) {
     this.app = app;
@@ -30,6 +32,10 @@ export class WidgetRenderer {
     this.footer = new WidgetFooter();
     this.copyHandler = new WidgetCopyHandler();
     this.skeleton = new WidgetSkeleton();
+  }
+
+  setOnDataUpdated(callback: (statuses: SubgraphStatus[]) => void) {
+    this.onDataUpdated = callback;
   }
 
   async loadAndRender(root: ShadowRoot) {
@@ -43,6 +49,7 @@ export class WidgetRenderer {
       );
       this.latestStatuses = statuses;
       this.error = null;
+      if (this.onDataUpdated) this.onDataUpdated(statuses);
     } catch (err) {
       console.error('Failed to load statuses', err);
       this.error = 'Failed to load data';
@@ -61,17 +68,18 @@ export class WidgetRenderer {
   }
 
   renderContent(root: ShadowRoot) {
-    const article = root.querySelector('.sla-card');
-    if (!article) return;
+    if (!this.articleEl) return;
 
-    article.innerHTML = '';
-    article.append(
-      this.controls.create(this.latestStatuses?.length || 0),
-      this.cards.create(this.latestStatuses ?? [], this.activeIndex),
-      this.footer.create(),
-    );
+    this.articleEl.innerHTML = '';
 
-    this.setupHandlers(root);
+    const controls = this.controls.create(this.latestStatuses?.length || 0);
+    const card = this.cards.create(this.latestStatuses ?? [], this.activeIndex);
+    const footer = this.footer.create();
+
+    this.articleEl.append(controls, card, footer);
+    this.tooltip.setup(this.articleEl);
+    this.copyHandler.setup(root);
+    this.controls.setup(root);
   }
 
   private renderMainContent(): HTMLElement {
@@ -88,14 +96,14 @@ export class WidgetRenderer {
       return wrapper;
     }
 
-    const article = document.createElement('article');
-    article.className = 'sla-card';
-    article.append(
+    this.articleEl = document.createElement('article');
+    this.articleEl.className = 'sla-card';
+    this.articleEl.append(
       this.controls.create(this.latestStatuses.length),
       this.cards.create(this.latestStatuses, this.activeIndex),
       this.footer.create(),
     );
-    wrapper.appendChild(article);
+    wrapper.appendChild(this.articleEl);
     this.tooltip.setup(wrapper);
     return wrapper;
   }
@@ -111,19 +119,25 @@ export class WidgetRenderer {
 
   private setupAutoRefresh(root: ShadowRoot) {
     this.clearAutoRefresh();
+
+    const refreshInterval = this.app.getOptions().refreshIntervalMs;
+    if (!refreshInterval || isNaN(refreshInterval)) return;
+
     this.refreshIntervalId = window.setInterval(() => {
       this.refreshStatuses(root);
-    }, this.app.getOptions().refreshIntervalMs ?? 30000);
+    }, refreshInterval);
   }
 
   private async refreshStatuses(root: ShadowRoot) {
+    const options = this.app.getOptions();
     try {
       const statuses = await fetchSubgraphStatuses(
-        this.app.getOptions().statusEndpoint,
-        this.app.getOptions().subgraphIds,
+        options.statusEndpoint,
+        options.subgraphIds,
       );
       this.latestStatuses = statuses;
       this.renderContent(root);
+      if (this.onDataUpdated) this.onDataUpdated(statuses);
     } catch (err) {
       console.error('Failed to refresh statuses', err);
     }
