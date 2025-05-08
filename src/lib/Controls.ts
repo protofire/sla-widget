@@ -97,7 +97,7 @@ export const controlsStyles = /* css */ `
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
   }
 
   .controls-select {

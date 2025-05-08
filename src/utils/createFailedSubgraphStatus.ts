@@ -16,7 +16,8 @@ export function createFailedSubgraphStatus(subgraphId: string): SubgraphStatus {
     latencyTime: 0,
     latencyBlocks: 0,
     health: 'unknown',
-    lastUpdated: Date.now(),
+    lastUpdated: Date.now() / 1000,
     failed: true,
+    submittersCount: 0,
   };
 }

@@ -6,7 +6,8 @@ export const baseStyles = /* css */ `
     color: var(--monitor-text);
     font-family: var(--monitor-font-family);
     font-size: var(--monitor-font-size);
-    max-width: 350px;
+    max-width: 400px;
+    width: 350px;
     margin: 0 auto;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
     transition:

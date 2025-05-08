@@ -31,7 +31,7 @@ export const footerStyles = /* css */ `
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 12px;
+
     color: var(--monitor-text);
     opacity: 0.8;
   }
@@ -42,6 +42,6 @@ export const footerStyles = /* css */ `
   }
 
   .footer-text {
-    font-size: var(--monitor-font-size);
+    font-size: 12px;
   }
 `;

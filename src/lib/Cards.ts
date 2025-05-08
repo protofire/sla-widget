@@ -1,6 +1,7 @@
 import { createElement } from '../utils/createElement';
 import { fmtAgo } from '../utils/fmtAgo';
 import { truncate } from '../utils/truncate';
+import { fmtLatency } from '../utils/fmtLatency';
 import { Health, SubgraphStatus, SummaryData } from '../utils/types';
 import { CopyIcon } from '../utils/icons';
 import { WidgetTooltip } from './Tooltip';
@@ -26,6 +27,18 @@ export class WidgetCards {
   }
 
   private createSummaryCard(summary: SummaryData) {
+    if (
+      summary.ok === 0 &&
+      summary.warning === 0 &&
+      (summary.error !== 0 || summary.unknown !== 0)
+    ) {
+      return createElement(
+        'h2',
+        {},
+        'Monitoring Unavailable or all subgraphs are down',
+      );
+    }
+
     return createElement('div', { className: 'card' }, [
       this.createHeader(
         this.getOverallHealth(summary),
@@ -166,10 +179,20 @@ export class WidgetCards {
 
   private createBodySummary(summary: SummaryData) {
     return createElement('div', { className: 'card-body' }, [
+      createElement('div', { className: 'card-submitters' }, [
+        `Consensus Participants:`,
+        createElement('span', {}, `${summary.submittersCount} `),
+        this.tooltip.createTrigger(
+          createElement('div', {}, ` ⓘ`),
+
+          'Average Number of unique participants who submitted proofs for this round.',
+        ),
+      ]),
+
       createElement(
         'div',
         { className: 'card-latency' },
-        `Avg Latency: ${summary.avgLatencyTime} ms | ${summary.avgLatencyBlocks} blocks`,
+        `Avg Latency: ${fmtLatency(summary.avgLatencyTime)} | ${summary.avgLatencyBlocks} blocks`,
       ),
       createElement(
         'div',
@@ -181,6 +204,17 @@ export class WidgetCards {
 
   private createBodyNormal(status: SubgraphStatus) {
     return createElement('div', { className: 'card-body' }, [
+      createElement('div', { className: 'card-submitters' }, [
+        `Consensus Participants:`,
+        createElement('span', {}, `${status.submittersCount} `),
+
+        this.tooltip.createTrigger(
+          createElement('div', {}, ` ⓘ`),
+
+          'Number of unique Participants who submitted proofs for this round.',
+        ),
+      ]),
+
       createElement('div', { className: 'card-subgraph' }, [
         `Subgraph: ${truncate(status.subgraphId)}`,
         this.createCopyButton(status.subgraphId),
@@ -188,7 +222,7 @@ export class WidgetCards {
       createElement(
         'div',
         { className: 'card-latency' },
-        `Latency: ${status.latencyTime} ms | ${status.latencyBlocks} blocks behind`,
+        `Latency: ${fmtLatency(status.latencyTime)} | ${status.latencyBlocks} blocks behind`,
       ),
     ]);
   }
@@ -202,10 +236,12 @@ export class WidgetCards {
       totalLatencyBlocks = 0;
     let worst: Health = 'ok';
     let lastUpdated = 0;
+    let submittersCount = 0;
 
     statuses.forEach((s) => {
       totalLatencyTime += s.latencyTime;
       totalLatencyBlocks += s.latencyBlocks;
+      submittersCount += s.submittersCount || 0;
 
       if (s.health === 'ok') ok++;
       else if (s.health === 'warning') warning++;
@@ -228,6 +264,7 @@ export class WidgetCards {
       avgLatencyBlocks: Math.round(totalLatencyBlocks / statuses.length),
       worst,
       lastUpdated,
+      submittersCount: Math.round(submittersCount / statuses.length),
     };
   }
 
@@ -244,12 +281,12 @@ export class WidgetCards {
       ok: { single: 'Service is Active', summary: 'All subgraphs are Active' },
       warning: {
         single: 'Increased Latency',
-        summary: 'Some subgraphs have Latency',
+        summary: 'Some subgraphs - Latency',
       },
-      error: { single: 'Service is Down', summary: 'Some subgraphs are Down' },
+      error: { single: 'Service is Down', summary: 'Some subgraphs - Down' },
       unknown: {
         single: 'Monitoring Unavailable',
-        summary: 'Some subgraphs are unavailable.',
+        summary: 'Some subgraphs - Down',
       },
     };
     return titles[health][mode];
@@ -276,7 +313,7 @@ export const cardsStyles = /* css */ `
     font-weight: bold;
     font-size: 16px;
     margin: 0;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
   }
 
   .failed-timestamp {
@@ -287,7 +324,7 @@ export const cardsStyles = /* css */ `
   .card {
     min-height: 68px;
     background: var(--monitor-background);
-    margin-bottom: 1em;
+    margin-bottom: 8px;
     transition:
       background 0.3s,
       color 0.3s;
@@ -297,12 +334,12 @@ export const cardsStyles = /* css */ `
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
   }
 
   .card-header h2 {
+    font-size: 20px;
     max-width: 262px;
-    font-size: 16px;
     margin: 0;
   }
 
@@ -343,15 +380,25 @@ export const cardsStyles = /* css */ `
     font-size: var(--monitor-font-size);
   }
 
+  .card-submitters {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 2px;
+  }
+
+  .card-submitters span {
+    font-weight: bold;
+  }
+
   .card-subgraph {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 6px;
+    margin-bottom: 2px;
   }
 
   .card-latency {
-    margin-bottom: 6px;
+    margin-bottom: 2px;
   }
 
   .card-copy {
