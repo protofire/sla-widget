@@ -19,7 +19,10 @@ class MonitorWidgetElement extends HTMLElement {
       return;
     }
 
-    const subgraphIds = subgraphIdsAttr.split(',');
+    const subgraphIds = subgraphIdsAttr
+      .split(',')
+      .map((id) => id.trim())
+      .filter(Boolean);
     const refreshIntervalMs = refreshIntervalMsAttr
       ? parseInt(refreshIntervalMsAttr, 10)
       : undefined;
