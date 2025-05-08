@@ -55,6 +55,11 @@ yarn add monitor-widget
 ></monitor-widget>
 ```
 
+### Example
+
+You can try out the widget live on
+[CodePen](https://codepen.io/vasylkivt/pen/JooaYvy?editors=1000).
+
 ### Attributes
 
 | Attribute             | Type     | Required | Description                                                                                                                                                                |
@@ -78,6 +83,11 @@ import { MonitorWidget } from 'monitor-widget/react';
   theme="auto" // "light" | "dark"
 />;
 ```
+
+### Example
+
+You can try out the widget live on
+[StackBlitz](https://stackblitz.com/edit/stackblitz-starters-ngf4cda4?description=The%20React%20framework%20for%20production&file=package.json,app/layout.tsx,app/page.tsx&title=Next.js%20Starter).
 
 ### Props
 
@@ -108,6 +118,11 @@ import { MonitorWidget } from 'monitor-widget/react';
   app.render(document.getElementById('monitor-container'));
 </script>
 ```
+
+### Example
+
+You can try out the widget live on
+[CodePen](https://codepen.io/vasylkivt/pen/ZYYMGNd).
 
 ### Options
 

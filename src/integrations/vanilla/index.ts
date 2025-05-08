@@ -1,3 +1,4 @@
+import { ThemeMode } from 'src/utils/types';
 import { WidgetApp } from '../../lib';
 
 class MonitorWidgetElement extends HTMLElement {
@@ -11,6 +12,7 @@ class MonitorWidgetElement extends HTMLElement {
     const subgraphIdsAttr = this.getAttribute('subgraph-ids');
     const statusEndpoint = this.getAttribute('status-endpoint');
     const refreshIntervalMsAttr = this.getAttribute('refresh-interval-ms');
+    const themeAttr = this.getAttribute('theme');
 
     if (!subgraphIdsAttr || !statusEndpoint) {
       console.error('Missing required attributes');
@@ -22,10 +24,13 @@ class MonitorWidgetElement extends HTMLElement {
       ? parseInt(refreshIntervalMsAttr, 10)
       : undefined;
 
+    const theme = (themeAttr as ThemeMode) || 'auto';
+
     this.app = new WidgetApp({
       subgraphIds,
       statusEndpoint,
       refreshIntervalMs,
+      theme,
     });
 
     this.app.render(this);

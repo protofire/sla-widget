@@ -323,6 +323,7 @@ export const cardsStyles = /* css */ `
 
   .card {
     min-height: 68px;
+    text-align: left;
     background: var(--monitor-background);
     margin-bottom: 8px;
     transition:

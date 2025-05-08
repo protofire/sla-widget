@@ -2,54 +2,84 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Monitor Widget - Core Vanilla Example</title>
+    <title>🛠️ Monitor Widget - Core Vanilla Demo</title>
     <style>
       body {
         font-family: sans-serif;
         padding: 40px;
+        line-height: 1.5;
+        text-align: center;
       }
-      h1,
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 32px;
+      }
       h2 {
-        margin-bottom: 16px;
+        font-size: 1.25rem;
+        margin: 32px 0 16px;
       }
-      #monitor-container-many,
-      #monitor-container-one {
+      .widget-row {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
         margin-bottom: 40px;
       }
     </style>
   </head>
   <body>
-    <h1>Monitor Widget - Core Vanilla Playground</h1>
+    <h1>🛠️ Monitor Widget - Core Vanilla Demo</h1>
 
     <h2>Multiple Subgraphs</h2>
-    <div id="monitor-container-many"></div>
+    <div class="widget-row" id="monitor-many"></div>
 
-    <h2>Single Subgraph</h2>
-    <div id="monitor-container-one"></div>
+    <h2>🟢 OK Subgraph</h2>
+    <div class="widget-row" id="monitor-ok"></div>
+
+    <h2>🟡 Latency Subgraph</h2>
+    <div class="widget-row" id="monitor-latency"></div>
+
+    <h2>🔴 Down Subgraph</h2>
+    <div class="widget-row" id="monitor-down"></div>
 
     <script type="module">
       import { WidgetApp } from 'https://cdn.jsdelivr.net/npm/monitor-widget@latest/dist/core.mjs';
-      // import { WidgetApp } from '../../dist/core.mjs';
 
-      const appMany = new WidgetApp({
-        subgraphIds: [
+      const endpoint = 'https://mock-proof-service.vercel.app/api/status';
+
+      const renderWidget = (subgraphIds, containerId) => {
+        const app = new WidgetApp({
+          subgraphIds,
+          statusEndpoint: endpoint,
+          refreshIntervalMs: 10000,
+          theme: 'light',
+        });
+        app.render(document.getElementById(containerId));
+      };
+
+      renderWidget(
+        [
           'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
+          'Qm1234567890abcdefghijklmnopqrstuvwxyz-SyncOk',
           'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
-          'QmcGipHy56ezZGdp1EqWEXEHTbVnBVw1vxXfTEhC3DJZJz',
+          'Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency',
+          'Qm1234567890abcdefghijklmnopqrstuvwxyz-Down',
         ],
-        statusEndpoint: 'https://mock-proof-service.vercel.app/api/status',
-        refreshIntervalMs: 10000,
-        theme: 'light',
-      });
+        'monitor-many',
+      );
 
-      const appOne = new WidgetApp({
-        subgraphIds: ['QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa'],
-        statusEndpoint: 'https://mock-proof-service.vercel.app/api/status',
-        refreshIntervalMs: 10000,
-      });
-
-      appMany.render(document.getElementById('monitor-container-many'));
-      appOne.render(document.getElementById('monitor-container-one'));
+      renderWidget(
+        ['Qm1234567890abcdefghijklmnopqrstuvwxyz-SyncOk'],
+        'monitor-ok',
+      );
+      renderWidget(
+        ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency'],
+        'monitor-latency',
+      );
+      renderWidget(
+        ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Down'],
+        'monitor-down',
+      );
     </script>
   </body>
 </html>

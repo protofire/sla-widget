@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Monitor Widget - Web Component Example</title>
+    <title>🛠️ Monitor Widget - Web Component Demo</title>
     <script
       type="module"
       src="https://cdn.jsdelivr.net/npm/monitor-widget@latest/dist/vanilla.mjs"
@@ -11,32 +11,56 @@
       body {
         font-family: sans-serif;
         padding: 40px;
+        text-align: center;
+        line-height: 1.5;
       }
-      h1,
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 32px;
+      }
       h2 {
-        margin-bottom: 16px;
+        font-size: 1.25rem;
+        margin: 32px 0 16px;
       }
       monitor-widget {
-        display: block;
-        margin-bottom: 40px;
+        display: inline-block;
+        margin: 0 10px 40px;
       }
     </style>
   </head>
   <body>
-    <h1>Monitor Widget - Vanilla Playground</h1>
+    <h1>🛠️ Monitor Widget - Web Component Demo</h1>
 
     <h2>Multiple Subgraphs</h2>
     <monitor-widget
-      subgraph-ids="QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk,QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa,QmcGipHy56ezZGdp1EqWEXEHTbVnBVw1vxXfTEhC3DJZJz"
+      subgraph-ids="QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk,Qm1234567890abcdefghijklmnopqrstuvwxyz-SyncOk,QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa,Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency,Qm1234567890abcdefghijklmnopqrstuvwxyz-Down"
       status-endpoint="https://mock-proof-service.vercel.app/api/status"
       refresh-interval-ms="10000"
+      theme="light"
     ></monitor-widget>
 
-    <h2>Single Subgraph</h2>
+    <h2>🟢 OK Subgraph</h2>
     <monitor-widget
-      subgraph-ids="QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa"
+      subgraph-ids="Qm1234567890abcdefghijklmnopqrstuvwxyz-SyncOk"
       status-endpoint="https://mock-proof-service.vercel.app/api/status"
       refresh-interval-ms="10000"
+      theme="light"
+    ></monitor-widget>
+
+    <h2>🟡 Latency Subgraph</h2>
+    <monitor-widget
+      subgraph-ids="Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency"
+      status-endpoint="https://mock-proof-service.vercel.app/api/status"
+      refresh-interval-ms="10000"
+      theme="light"
+    ></monitor-widget>
+
+    <h2>🔴 Down Subgraph</h2>
+    <monitor-widget
+      subgraph-ids="Qm1234567890abcdefghijklmnopqrstuvwxyz-Down"
+      status-endpoint="https://mock-proof-service.vercel.app/api/status"
+      refresh-interval-ms="10000"
+      theme="light"
     ></monitor-widget>
   </body>
 </html>
