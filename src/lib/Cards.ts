@@ -192,7 +192,7 @@ export class WidgetCards {
     statuses.forEach((s) => {
       totalLatencyTime += s.latencyTime;
       totalLatencyBlocks += s.latencyBlocks;
-      submittersCount += s.submittersCount || 0;
+      submittersCount += Number(s.submittersCount);
 
       if (s.health === 'ok') ok++;
       else if (s.health === 'warning') warning++;
