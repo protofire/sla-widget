@@ -16,11 +16,16 @@ export default function Page() {
     latency: ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency'],
     down: ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Down'],
     multiple: [
+      'QmXHy4CixX26LjSgDMhs4mjxKVVCPgjLyZptrn1nH6VYMq',
       'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
-      'Qm1234567890abcdefghijklmnopqrstuvwxyz-SyncOk',
+      'Qmc9Pk8Hc4MbVDmY1YqWBP1NoGXiHmsTk4kdkxChLLYFKD',
       'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
-      'Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency',
-      'Qm1234567890abcdefghijklmnopqrstuvwxyz-Down',
+      'QmbFB5FEhALut2u57D7tPtBj9j4NUj7RCcfPVzxfG9kgiK',
+      'QmZ55uVFQXodW33oPS5nD9DcpM7PEjU2ZJ96pxMS1mpgyy',
+      'QmS58L856xWTiqucKUF6DW3Q5uSvPeMQdkWDU4WUr3bRff',
+      'QmQXbkzejfFfFAbN8dGGKTavB8VztTsg3ojvPgjhkPeNYf',
+      'QmWazi3v1EXLoftdNZKnVxbYkKdL5RpEiQmajZpdHTEhhs',
+      'QmfJnKZoExJMdbh8VsLPcCqr2wCQF9mhDXafpE9Jv76UdV',
     ],
   };
 
