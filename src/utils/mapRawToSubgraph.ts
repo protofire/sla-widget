@@ -24,7 +24,7 @@ export function mapRawToSubgraph(raw: RawStatus): SubgraphStatus {
     latencyBlocks: raw.latencyBlocks,
     latencyTime: raw.latencyTime,
     health: syncMap[raw.syncStatus] ?? 'unknown',
-    lastUpdated: raw.timestamp,
+    lastUpdated: new Date(Number(raw.timestamp) * 1000).getTime(),
     submittersCount: raw.submittersCount,
   };
 }

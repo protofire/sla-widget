@@ -13,7 +13,7 @@ export interface WidgetAppOptions {
 
 export interface RawStatus {
   indexer: string;
-  timestamp: number;
+  timestamp: string; // bigint
   subgraphId: string;
   latencyBlocks: number;
   latencyTime: number;

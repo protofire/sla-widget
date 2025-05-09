@@ -7,8 +7,8 @@ import { MonitorWidget as Prod } from 'monitor-widget/react';
 const MonitorWidget = isDev ? Dev : Prod;
 
 export default function Page() {
-  const statusEndpoint = !isDev
-    ? 'http://localhost:3002/api/status'
+  const statusEndpoint = isDev
+    ? 'http://localhost:3001/api/status'
     : 'https://mock-proof-service.vercel.app/api/status';
 
   const subgraphIds = {

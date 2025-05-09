@@ -7,12 +7,12 @@
  *   - "2h ago" if < 1 day
  *   - "5d ago" otherwise
  *
- * @param ts - Timestamp in seconds
+ * @param ts - Timestamp in milliseconds
  * @returns Readable time-difference string, or "—" if invalid
  */
 export const fmtAgo = (ts: number): string => {
   if (!ts) return '—';
-  const sec = Math.floor(Date.now() / 1000 - ts);
+  const sec = Math.floor((Date.now() - ts) / 1000);
   if (sec < 60) return `${sec}s ago`;
 
   const min = Math.floor(sec / 60);
