@@ -44,8 +44,8 @@ export class WidgetRenderer {
 
     try {
       const statuses = await fetchSubgraphStatuses(
-        options.statusEndpoint,
         options.subgraphIds,
+        options.statusEndpoint,
       );
       this.latestStatuses = statuses;
       this.error = null;
@@ -132,8 +132,8 @@ export class WidgetRenderer {
     const options = this.app.getOptions();
     try {
       const statuses = await fetchSubgraphStatuses(
-        options.statusEndpoint,
         options.subgraphIds,
+        options.statusEndpoint,
       );
       this.latestStatuses = statuses;
       this.renderContent(root);

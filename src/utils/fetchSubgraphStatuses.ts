@@ -2,6 +2,7 @@ import { runWithConcurrencyLimit } from './runWithConcurrencyLimit';
 import { mapRawToSubgraph } from './mapRawToSubgraph';
 import { RawStatus, SubgraphStatus } from './types';
 import { createFailedSubgraphStatus } from './createFailedSubgraphStatus';
+import { STATUS_API_URL } from './constants';
 
 /**
  * Fetches the health status of a list of subgraphs from a monitoring endpoint.
@@ -16,8 +17,8 @@ import { createFailedSubgraphStatus } from './createFailedSubgraphStatus';
  * @returns Promise resolving to an array of SubgraphStatus objects
  */
 export async function fetchSubgraphStatuses(
-  statusEndpoint: string,
   subgraphIds: string[],
+  statusEndpoint = STATUS_API_URL,
   concurrencyLimit = 5,
 ): Promise<SubgraphStatus[]> {
   const tasks = subgraphIds.map((id) => async () => {

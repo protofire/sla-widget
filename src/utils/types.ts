@@ -6,7 +6,7 @@ export type Health = 'ok' | 'warning' | 'error' | 'unknown';
 
 export interface WidgetAppOptions {
   subgraphIds: string[];
-  statusEndpoint: string;
+  statusEndpoint?: string;
   refreshIntervalMs?: number;
   theme?: ThemeMode;
 }
