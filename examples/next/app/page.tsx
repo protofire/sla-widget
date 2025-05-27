@@ -1,125 +1,124 @@
 'use client';
 
-const isDev = process.env.NODE_ENV === 'development';
+import { MonitorWidget } from '../../../src/integrations/react';
 
-import { MonitorWidget as Dev } from '../../../src/integrations/react';
-import { MonitorWidget as Prod } from 'monitor-widget/react';
-const MonitorWidget = isDev ? Dev : Prod;
+import Image from 'next/image';
 
-export default function Page() {
-  const statusEndpoint = isDev
-    ? 'http://localhost:3001/api/status'
-    : 'https://mock-proof-service.vercel.app/api/status';
-
-  const subgraphIds = {
-    ok: ['Qm1234567890abcdefghijklmnopqrstuvwxyz-SyncOk'],
-    latency: ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency'],
-    down: ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Down'],
-    multiple: [
-      'QmXHy4CixX26LjSgDMhs4mjxKVVCPgjLyZptrn1nH6VYMq',
-      'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
-      'Qmc9Pk8Hc4MbVDmY1YqWBP1NoGXiHmsTk4kdkxChLLYFKD',
-      'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
-      'QmbFB5FEhALut2u57D7tPtBj9j4NUj7RCcfPVzxfG9kgiK',
-      'QmZ55uVFQXodW33oPS5nD9DcpM7PEjU2ZJ96pxMS1mpgyy',
-      'QmS58L856xWTiqucKUF6DW3Q5uSvPeMQdkWDU4WUr3bRff',
-      'QmQXbkzejfFfFAbN8dGGKTavB8VztTsg3ojvPgjhkPeNYf',
-      'QmWazi3v1EXLoftdNZKnVxbYkKdL5RpEiQmajZpdHTEhhs',
-      'QmfJnKZoExJMdbh8VsLPcCqr2wCQF9mhDXafpE9Jv76UdV',
-    ],
-  };
-
+export default function Home() {
   return (
-    <main style={{ padding: 40, fontFamily: 'sans-serif', lineHeight: 1.5 }}>
-      <h1 style={{ fontSize: '2rem', marginBottom: 20, textAlign: 'center' }}>
-        🛠️ Monitor Widget Demo
-      </h1>
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] outline-1 outline-red-700 m-1 h-[2000px]">
+      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+        <Image
+          className="dark:invert"
+          src="/next.svg"
+          alt="Next.js logo"
+          width={180}
+          height={38}
+          priority
+        />
+        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
+          <li className="mb-2 tracking-[-.01em]">
+            Get started by editing{' '}
+            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
+              src/app/page.tsx
+            </code>
+            .
+          </li>
+          <li className="tracking-[-.01em]">
+            Save and see your changes instantly.
+          </li>
+        </ol>
 
-      <section style={{ marginBottom: 40 }}>
-        <h2
-          style={{ fontSize: '1.25rem', marginBottom: 10, textAlign: 'center' }}
-        >
-          Multiple Subgraphs
-        </h2>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 20 }}>
-          <div>
-            <h4 style={{ marginBottom: 5 }}>🌞 Light Theme</h4>
-            <MonitorWidget
-              subgraphIds={subgraphIds.multiple}
-              statusEndpoint={statusEndpoint}
-              theme="light"
+        <div className="flex gap-4 items-center flex-col sm:flex-row">
+          <MonitorWidget
+            subgraphIds={[
+              'QmXHy4CixX26LjSgDMhs4mjxKVVCPgjLyZptrn1nH6VYMq',
+              'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
+              'Qmc9Pk8Hc4MbVDmY1YqWBP1NoGXiHmsTk4kdkxChLLYFKD',
+              'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
+              'QmbFB5FEhALut2u57D7tPtBj9j4NUj7RCcfPVzxfG9kgiK',
+              'QmZ55uVFQXodW33oPS5nD9DcpM7PEjU2ZJ96pxMS1mpgyy',
+              'QmS58L856xWTiqucKUF6DW3Q5uSvPeMQdkWDU4WUr3bRff',
+              'QmQXbkzejfFfFAbN8dGGKTavB8VztTsg3ojvPgjhkPeNYf',
+              'QmWazi3v1EXLoftdNZKnVxbYkKdL5RpEiQmajZpdHTEhhs',
+              'QmfJnKZoExJMdbh8VsLPcCqr2wCQF9mhDXafpE9Jv76UdV',
+            ]}
+            statusEndpoint={'https://mock-proof-service.vercel.app/api/status'}
+            mode="banner"
+            details="default"
+          />
+          <a
+            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
+            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              className="dark:invert"
+              src="/vercel.svg"
+              alt="Vercel logomark"
+              width={20}
+              height={20}
             />
-          </div>
-          <div>
-            <h4 style={{ marginBottom: 5 }}>🌙 Dark Theme</h4>
-            <MonitorWidget
-              subgraphIds={subgraphIds.multiple}
-              statusEndpoint={statusEndpoint}
-              theme="dark"
-            />
-          </div>
+            Deploy now
+          </a>
+          <a
+            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
+            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read our docs
+          </a>
         </div>
-      </section>
-
-      <section style={{ marginBottom: 40 }}>
-        <h2
-          style={{ fontSize: '1.25rem', marginBottom: 10, textAlign: 'center' }}
+      </main>
+      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          🟢 OK Subgraph
-        </h2>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 20 }}>
-          <MonitorWidget
-            subgraphIds={subgraphIds.ok}
-            statusEndpoint={statusEndpoint}
-            theme="light"
+          <Image
+            aria-hidden
+            src="/file.svg"
+            alt="File icon"
+            width={16}
+            height={16}
           />
-          <MonitorWidget
-            subgraphIds={subgraphIds.ok}
-            statusEndpoint={statusEndpoint}
-            theme="dark"
-          />
-        </div>
-      </section>
-
-      <section style={{ marginBottom: 40 }}>
-        <h2
-          style={{ fontSize: '1.25rem', marginBottom: 10, textAlign: 'center' }}
+          Learn
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          🟡 Latency Subgraph
-        </h2>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 20 }}>
-          <MonitorWidget
-            subgraphIds={subgraphIds.latency}
-            statusEndpoint={statusEndpoint}
-            theme="light"
+          <Image
+            aria-hidden
+            src="/window.svg"
+            alt="Window icon"
+            width={16}
+            height={16}
           />
-          <MonitorWidget
-            subgraphIds={subgraphIds.latency}
-            statusEndpoint={statusEndpoint}
-            theme="dark"
-          />
-        </div>
-      </section>
-
-      <section>
-        <h2
-          style={{ fontSize: '1.25rem', marginBottom: 10, textAlign: 'center' }}
+          Examples
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          🔴 Down Subgraph
-        </h2>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 20 }}>
-          <MonitorWidget
-            subgraphIds={subgraphIds.down}
-            statusEndpoint={statusEndpoint}
-            theme="light"
+          <Image
+            aria-hidden
+            src="/globe.svg"
+            alt="Globe icon"
+            width={16}
+            height={16}
           />
-          <MonitorWidget
-            subgraphIds={subgraphIds.down}
-            statusEndpoint={statusEndpoint}
-            theme="dark"
-          />
-        </div>
-      </section>
-    </main>
+          Go to nextjs.org →
+        </a>
+      </footer>
+    </div>
   );
 }
