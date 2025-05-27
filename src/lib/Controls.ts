@@ -9,7 +9,7 @@ export class WidgetControls {
   create(totalSubgraphs: number) {
     if (totalSubgraphs <= 1) return '';
 
-    const ids = this.renderer.getApp().getOptions().subgraphIds;
+    const ids = this.renderer.getStatuses().map((s) => s.subgraphId);
 
     return createElement('div', { className: 'controls' }, [
       createElement(

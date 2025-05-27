@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] outline-1 outline-red-700 m-1 h-[2000px]">
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] outline-1 outline-red-700 m-1 h-[1000px]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
@@ -32,20 +32,19 @@ export default function Home() {
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <MonitorWidget
             subgraphIds={[
-              'QmXHy4CixX26LjSgDMhs4mjxKVVCPgjLyZptrn1nH6VYMq',
-              'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
-              'Qmc9Pk8Hc4MbVDmY1YqWBP1NoGXiHmsTk4kdkxChLLYFKD',
-              'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
-              'QmbFB5FEhALut2u57D7tPtBj9j4NUj7RCcfPVzxfG9kgiK',
-              'QmZ55uVFQXodW33oPS5nD9DcpM7PEjU2ZJ96pxMS1mpgyy',
-              'QmS58L856xWTiqucKUF6DW3Q5uSvPeMQdkWDU4WUr3bRff',
-              'QmQXbkzejfFfFAbN8dGGKTavB8VztTsg3ojvPgjhkPeNYf',
-              'QmWazi3v1EXLoftdNZKnVxbYkKdL5RpEiQmajZpdHTEhhs',
-              'QmfJnKZoExJMdbh8VsLPcCqr2wCQF9mhDXafpE9Jv76UdV',
+              'Qm1234567890abcdefghijklmnopqrstuvwxyz-SyncOk',
+              'Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency',
+              'Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency',
+              'Qm1234567890abcdefghijklmnopqrstuvwxyz-Down',
+              'Qm1234567890abcdefghijklmnopqrstuvwxyz-Down',
             ]}
-            statusEndpoint={'https://mock-proof-service.vercel.app/api/status'}
-            mode="banner"
-            details="default"
+            // customMessages={{
+            //   warning: '1.',
+            // }}
+            // statusEndpoint={'https://mock-proof-service.vercel.app/api/status'}
+            // position="embedded"
+            // details="problemsOnly"
+            // mode="dev"
           />
           <a
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"

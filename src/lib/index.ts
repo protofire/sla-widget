@@ -2,6 +2,7 @@ import { WidgetRenderer } from './Renderer';
 import { WidgetStyleInjector } from './StyleInjector';
 import { ThemeMode, WidgetAppOptions } from '../utils/types';
 import { ThemeManager } from './ThemeManager';
+import { DEFAULT_MESSAGES } from '../utils/constants';
 
 export class WidgetApp {
   private shadowRoot: ShadowRoot | null = null;
@@ -11,12 +12,30 @@ export class WidgetApp {
   private options: WidgetAppOptions;
 
   constructor(options: WidgetAppOptions) {
-    this.options = options;
-    this.theming = new ThemeManager(options.theme);
+    this.options = {
+      ...options,
+      theme: options.theme || 'auto',
+      position: options.position || 'banner',
+      details: options.details || 'problemsOnly',
+      mode: options.mode || 'simple',
+      customMessages: {
+        ...DEFAULT_MESSAGES,
+        ...options.customMessages,
+      },
+    };
+    this.theming = new ThemeManager(this.options.theme);
     this.renderer = new WidgetRenderer(this);
   }
 
   async render(host: HTMLElement) {
+    const { position } = this.options;
+    if (
+      position === 'banner' &&
+      typeof document !== 'undefined' &&
+      host.parentNode !== document.body
+    ) {
+      document.body.insertBefore(host, document.body.firstChild);
+    }
     this.shadowRoot = host.attachShadow({ mode: 'open' });
     if (this.shadowRoot) {
       this.styleInjector.inject(this.shadowRoot);
@@ -27,7 +46,10 @@ export class WidgetApp {
   }
 
   update(options: WidgetAppOptions) {
-    this.options = options;
+    this.options = {
+      ...this.options,
+      ...options,
+    };
     if (this.shadowRoot) {
       this.renderer.loadAndRender(this.shadowRoot);
     }
@@ -42,7 +64,7 @@ export class WidgetApp {
   destroy() {
     this.shadowRoot?.replaceChildren();
     this.theming.cleanup();
-    this.renderer.clearAutoRefresh();
+    this.renderer.destroy();
   }
 
   getOptions() {

@@ -178,7 +178,7 @@ export class WidgetCards {
     ]);
   }
 
-  private summarize(statuses: SubgraphStatus[]): SummaryData {
+  summarize(statuses: SubgraphStatus[]): SummaryData {
     let ok = 0,
       warning = 0,
       error = 0,
@@ -284,6 +284,7 @@ export const cardsStyles = /* css */ `
 
   .card-header {
     display: flex;
+    gap: 20px;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 6px;

@@ -25,6 +25,14 @@ export const MonitorWidget: React.FC<WidgetAppOptions> = (props) => {
     props.statusEndpoint,
     props.refreshIntervalMs,
     props.theme,
+    props.position,
+    props.details,
+    props.mode,
+    props.customMessages,
+    props.customMessages?.warning,
+    props.customMessages?.error,
+    props.customMessages?.unknown,
+    props.customMessages?.ok,
   ]);
 
   return <div ref={ref} />;

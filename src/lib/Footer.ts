@@ -24,7 +24,7 @@ export class WidgetFooter {
 export const footerStyles = /* css */ `
   .footer {
     display: flex;
-    justify-content: center;
+    justify-content: end;
   }
 
   .footer-content {
