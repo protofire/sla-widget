@@ -1,4 +1,5 @@
-import { ThemeMode } from 'src/utils/types';
+import { ThemeMode, Position, Details, Mode, Health } from '../../utils/types';
+
 import { WidgetApp } from '../../lib';
 
 class MonitorWidgetElement extends HTMLElement {
@@ -9,31 +10,48 @@ class MonitorWidgetElement extends HTMLElement {
   }
 
   connectedCallback() {
-    const subgraphIdsAttr = this.getAttribute('subgraph-ids');
-    const statusEndpoint = this.getAttribute('status-endpoint');
-    const refreshIntervalMsAttr = this.getAttribute('refresh-interval-ms');
-    const themeAttr = this.getAttribute('theme');
+    const rawIds = this.getAttribute('subgraph-ids');
+    const statusEndpoint = this.getAttribute('status-endpoint') ?? '';
+    const refreshIntervalMs = this.num(
+      this.getAttribute('refresh-interval-ms'),
+    );
+    const theme = this.getAttribute('theme') as ThemeMode;
+    const position = this.getAttribute('position') as Position;
+    const details = this.getAttribute('details') as Details;
+    const mode = this.getAttribute('mode') as Mode;
+    const rawCustomMessages = this.getAttribute('custom-messages');
 
-    if (!subgraphIdsAttr || !statusEndpoint) {
-      console.error('Missing required attributes');
+    if (!rawIds) {
+      console.error('sla-widget: attribute "subgraph-ids" is required.');
       return;
     }
 
-    const subgraphIds = subgraphIdsAttr
+    const subgraphIds = rawIds
       .split(',')
       .map((id) => id.trim())
       .filter(Boolean);
-    const refreshIntervalMs = refreshIntervalMsAttr
-      ? parseInt(refreshIntervalMsAttr, 10)
-      : undefined;
 
-    const theme = (themeAttr as ThemeMode) || 'auto';
+    let customMessages: Partial<Record<Health, string>> | undefined;
+    if (rawCustomMessages) {
+      try {
+        customMessages = JSON.parse(rawCustomMessages);
+      } catch (err) {
+        console.warn(
+          'sla-widget: failed to parse "custom-messages", ignoring.',
+          err,
+        );
+      }
+    }
 
     this.app = new WidgetApp({
       subgraphIds,
       statusEndpoint,
       refreshIntervalMs,
       theme,
+      position,
+      details,
+      mode,
+      customMessages,
     });
 
     this.app.render(this);
@@ -41,6 +59,11 @@ class MonitorWidgetElement extends HTMLElement {
 
   disconnectedCallback() {
     this.app?.destroy();
+  }
+
+  /* ——————————————————————————— helpers —————————————————————————— */
+  private num(value: string | null): number | undefined {
+    return value ? Number.parseInt(value, 10) : undefined;
   }
 }
 
