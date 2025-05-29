@@ -21,6 +21,7 @@ const syncMap: Record<0 | 1 | 2, Health> = {
 export function mapRawToSubgraph(raw: RawStatus): SubgraphStatus {
   return {
     subgraphId: raw.subgraphId,
+    subgraphCid: raw.subgraphCid,
     latencyBlocks: raw.latencyBlocks,
     latencyTime: raw.latencyTime,
     health: syncMap[raw.syncStatus] ?? 'unknown',

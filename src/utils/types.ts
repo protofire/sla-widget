@@ -27,6 +27,7 @@ export interface RawStatus {
   indexer: string;
   timestamp: string; // bigint
   subgraphId: string;
+  subgraphCid: string;
   latencyBlocks: number;
   latencyTime: number;
   syncStatus: 0 | 1 | 2;
@@ -35,6 +36,7 @@ export interface RawStatus {
 
 export interface SubgraphStatus {
   subgraphId: string;
+  subgraphCid: string;
   latencyBlocks: number;
   latencyTime: number;
   health: Health;

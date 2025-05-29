@@ -76,7 +76,8 @@ pnpm add @chainlove/sla-widget
 | `theme`               | `string` | ❌       | `auto`         | `light`, `dark`, `highContrast`, or `auto`                                                                                                                                 |
 | `position`            | `string` | ❌       | `banner`       | `banner` (full‑width) or `embedded` (inline block)                                                                                                                         |
 | `details`             | `string` | ❌       | `problemsOnly` | `full` metadata panel or `problemsOnly` summary                                                                                                                            |
-| `mode`                | `string` | ❌       | `simple`       | `simple` (prod) or `dev` (extra debug info)                                                                                                                                |
+| `mode`                | `string` | ❌       | `simple`       | `simple` or `dev` (extra debug info)                                                                                                                                       |
+| `pinned`              | `string` | ❌       | `slide`        | `slide` or `fixed`                                                                                                                                                         |
 | `custom-messages`     | `string` | ❌       | –              | JSON string mapping health → custom text, e.g. `{ "ok":"✅", "error":"❌" }`                                                                                               |
 
 ---
@@ -105,6 +106,7 @@ You can try out the widget live on
 | `position`          | `Position`                     | ❌       | `banner`       | `banner` \| `embedded`                                                                                                                                                     |
 | `details`           | `Details`                      | ❌       | `problemsOnly` | `full` \| `problemsOnly`                                                                                                                                                   |
 | `mode`              | `Mode`                         | ❌       | `simple`       | `simple` \| `dev`                                                                                                                                                          |
+| `pinned`            | `string`                       | ❌       | `slide`        | `slide` or `fixed`                                                                                                                                                         |
 | `customMessages`    | `{ [key in Health]?: string }` | ❌       | `{}`           | Override default texts per health state                                                                                                                                    |
 
 ---
@@ -141,6 +143,7 @@ You can try out the widget live on
 | `position`          | `Position`                     | ❌       | `banner`       | `banner` \| `embedded`                                                                                                                                                     |
 | `details`           | `Details`                      | ❌       | `problemsOnly` | `full` \| `problemsOnly`                                                                                                                                                   |
 | `mode`              | `Mode`                         | ❌       | `simple`       | `simple` \| `dev`                                                                                                                                                          |
+| `pinned`            | `string`                       | ❌       | `slide`        | `slide` or `fixed`                                                                                                                                                         |
 | `customMessages`    | `{ [key in Health]?: string }` | ❌       | `{}`           | Override default texts per health state                                                                                                                                    |
 
 ---
