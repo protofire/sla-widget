@@ -1,4 +1,11 @@
-import { ThemeMode, Position, Details, Mode, Health } from '../../utils/types';
+import {
+  ThemeMode,
+  Position,
+  Details,
+  Mode,
+  Health,
+  Pinned,
+} from '../../utils/types';
 
 import { SLAWidget } from '../../lib';
 
@@ -19,6 +26,7 @@ class MonitorWidgetElement extends HTMLElement {
     const position = this.getAttribute('position') as Position;
     const details = this.getAttribute('details') as Details;
     const mode = this.getAttribute('mode') as Mode;
+    const pinned = this.getAttribute('pinned') as Pinned;
     const rawCustomMessages = this.getAttribute('custom-messages');
 
     if (!rawIds) {
@@ -51,6 +59,7 @@ class MonitorWidgetElement extends HTMLElement {
       position,
       details,
       mode,
+      pinned,
       customMessages,
     });
 

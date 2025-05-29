@@ -36,6 +36,8 @@ export default function Home() {
               'QmdpNhQPC3gxPd9AdC1PbK574b1mo9n9hy6CHgvm41Qsbm',
               'Qme1BrFWgkKVnYdWyhk5Vup1VHcswqNzUMuUpawnSzpaoS',
             ]}
+            // pinned="fixed"
+            // pinned="slide"
           />
           <a
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"

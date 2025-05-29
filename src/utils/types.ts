@@ -7,6 +7,7 @@ export type Health = 'ok' | 'warning' | 'error' | 'unknown';
 export type Position = 'banner' | 'embedded';
 export type Details = 'full' | 'problemsOnly';
 export type Mode = 'dev' | 'simple';
+export type Pinned = 'fixed' | 'slide';
 
 export interface WidgetAppOptions {
   subgraphIds: string[];
@@ -16,6 +17,7 @@ export interface WidgetAppOptions {
   position?: Position;
   details?: Details;
   mode?: Mode;
+  pinned?: Pinned;
   customMessages?: {
     [key in Health]?: string;
   };

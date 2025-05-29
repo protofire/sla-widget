@@ -28,6 +28,7 @@ export const SLAWidget: React.FC<WidgetAppOptions> = (props) => {
     props.position,
     props.details,
     props.mode,
+    props.pinned,
     props.customMessages,
     props.customMessages?.warning,
     props.customMessages?.error,
