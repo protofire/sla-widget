@@ -72,8 +72,8 @@ export class WidgetCards {
         'Subgraph Load Failed',
       ),
       createElement('div', { className: 'card-subgraph' }, [
-        `Subgraph: ${truncate(status.subgraphId)}`,
-        this.createCopyButton(status.subgraphId),
+        `Subgraph: ${truncate(status.subgraphCid)}`,
+        this.createCopyButton(status.subgraphCid),
       ]),
       createElement(
         'div',
@@ -167,8 +167,8 @@ export class WidgetCards {
       ),
 
       createElement('div', { className: 'card-subgraph' }, [
-        `Subgraph: ${truncate(status.subgraphId)}`,
-        this.createCopyButton(status.subgraphId),
+        `Subgraph: ${truncate(status.subgraphCid)}`,
+        this.createCopyButton(status.subgraphCid),
       ]),
       createElement(
         'div',

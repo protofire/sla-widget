@@ -38,8 +38,8 @@ export class WidgetRenderer {
   }
 
   async loadAndRender(root: ShadowRoot) {
-    const { subgraphIds, details } = this.app.getOptions();
-    if (details !== 'problemsOnly') {
+    const { subgraphIds, details, position } = this.app.getOptions();
+    if (details !== 'problemsOnly' && position !== 'banner') {
       this.showSkeleton(root, subgraphIds.length);
     }
     await this.updateStatuses(root);
