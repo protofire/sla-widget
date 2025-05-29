@@ -115,9 +115,9 @@ You can try out the widget live on
 <div id="sla-container"></div>
 
 <script type="module">
-  import { WidgetApp } from 'https://cdn.jsdelivr.net/npm/@chainlove/sla-widget@latest/dist/core.mjs';
+  import { SLAWidget } from 'https://cdn.jsdelivr.net/npm/@chainlove/sla-widget@latest/dist/core.mjs';
 
-  const app = new WidgetApp({
+  const app = new SLAWidget({
     subgraphIds: ['Qm123...', 'Qm456...'],
   });
 

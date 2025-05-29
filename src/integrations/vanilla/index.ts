@@ -1,9 +1,9 @@
 import { ThemeMode, Position, Details, Mode, Health } from '../../utils/types';
 
-import { WidgetApp } from '../../lib';
+import { SLAWidget } from '../../lib';
 
 class MonitorWidgetElement extends HTMLElement {
-  private app: WidgetApp | null = null;
+  private app: SLAWidget | null = null;
 
   constructor() {
     super();
@@ -43,7 +43,7 @@ class MonitorWidgetElement extends HTMLElement {
       }
     }
 
-    this.app = new WidgetApp({
+    this.app = new SLAWidget({
       subgraphIds,
       statusEndpoint,
       refreshIntervalMs,
@@ -72,5 +72,5 @@ if (!customElements.get('monitor-widget')) {
 }
 
 if (typeof window !== 'undefined') {
-  (window as any).MonitorWidget = { WidgetApp };
+  (window as any).MonitorWidget = { SLAWidget };
 }

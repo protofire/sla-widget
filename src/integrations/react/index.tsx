@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { WidgetApp } from '../../lib';
+import { SLAWidget as Widget } from '../../lib';
 import { WidgetAppOptions } from '../../utils/types';
 
-export const MonitorWidget: React.FC<WidgetAppOptions> = (props) => {
+export const SLAWidget: React.FC<WidgetAppOptions> = (props) => {
   const ref = React.useRef<HTMLDivElement>(null);
-  const appRef = React.useRef<WidgetApp>(null);
+  const appRef = React.useRef<Widget>(null);
 
   React.useEffect(() => {
     if (!ref.current) return;
 
     if (!appRef.current) {
-      const app = new WidgetApp(props);
+      const app = new Widget(props);
       app.render(ref.current);
       appRef.current = app;
     } else {

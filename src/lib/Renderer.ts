@@ -5,12 +5,12 @@ import { WidgetFooter } from './Footer';
 import { WidgetSkeleton } from './Skeleton';
 import { fetchSubgraphStatuses } from '../utils/fetchSubgraphStatuses';
 import { SubgraphStatus } from '../utils/types';
-import { WidgetApp } from '.';
+import { SLAWidget } from '.';
 import { WidgetTooltip } from './Tooltip';
 import { createElement } from '../utils/createElement';
 
 export class WidgetRenderer {
-  private app: WidgetApp;
+  private app: SLAWidget;
   private controls = new WidgetControls(this);
   private cards: WidgetCards;
   private copyHandler = new WidgetCopyHandler();
@@ -24,7 +24,7 @@ export class WidgetRenderer {
   private articleEl: HTMLElement | null = null;
   private onDataUpdated?: (statuses: SubgraphStatus[]) => void;
 
-  constructor(app: WidgetApp) {
+  constructor(app: SLAWidget) {
     this.app = app;
     this.cards = new WidgetCards(this.tooltip);
   }

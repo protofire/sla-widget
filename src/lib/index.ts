@@ -4,7 +4,7 @@ import { ThemeMode, WidgetAppOptions } from '../utils/types';
 import { ThemeManager } from './ThemeManager';
 import { DEFAULT_MESSAGES } from '../utils/constants';
 
-export class WidgetApp {
+export class SLAWidget {
   private shadowRoot: ShadowRoot | null = null;
   private readonly renderer: WidgetRenderer;
   private readonly theming: ThemeManager;
