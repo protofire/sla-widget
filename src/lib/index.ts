@@ -29,13 +29,7 @@ export class WidgetApp {
 
   async render(host: HTMLElement) {
     const { position } = this.options;
-    if (
-      position === 'banner' &&
-      typeof document !== 'undefined' &&
-      host.parentNode !== document.body
-    ) {
-      document.body.insertBefore(host, document.body.firstChild);
-    }
+
     this.shadowRoot = host.attachShadow({ mode: 'open' });
     if (this.shadowRoot) {
       this.styleInjector.inject(this.shadowRoot);
@@ -43,6 +37,16 @@ export class WidgetApp {
     }
     await this.renderer.loadAndRender(this.shadowRoot);
     this.theming.setupAutoMode(this.shadowRoot);
+
+    if (position === 'banner' && typeof document !== 'undefined') {
+      host.style.position = 'fixed';
+      host.style.top = '0';
+      host.style.left = '0';
+      host.style.width = '100%';
+      host.style.zIndex = '9999';
+      const height = host.getBoundingClientRect().height;
+      document.body.style.paddingTop = `${height}px`;
+    }
   }
 
   update(options: WidgetAppOptions) {

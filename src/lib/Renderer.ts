@@ -51,6 +51,9 @@ export class WidgetRenderer {
           ? statuses.filter((s) => s.health !== 'ok')
           : statuses;
       this.error = null;
+      if (!this.latestStatuses?.length && details !== 'problemsOnly') {
+        return;
+      }
       if (!silent) this.renderContent(root);
       this.onDataUpdated?.(statuses);
     } catch (err) {

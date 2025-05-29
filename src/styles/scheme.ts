@@ -1,4 +1,4 @@
-import { ThemeMode, ThemeVariant } from 'src/utils/types';
+import { ThemeMode, ThemeVariant } from '../utils/types';
 
 const sharedTokens = {
   '--monitor-border-radius': '8px',

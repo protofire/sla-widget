@@ -1,6 +1,5 @@
-// export const STATUS_API_URL = 'https://api.slalayer.xyz/api/v1';
 export const STATUS_API_URL =
-  'https://mock-proof-service.vercel.app/api/status';
+  'https://dev-api.slalayer.xyz/api/v1/subgraphs/heads';
 
 export const DEFAULT_MESSAGES = {
   warning:

@@ -1,4 +1,4 @@
-import { ThemeMode } from 'src/utils/types';
+import { ThemeMode } from '../utils/types';
 import { getThemeTokens } from '../styles/scheme';
 
 export class ThemeManager {

@@ -27,7 +27,14 @@
       }
     </style>
   </head>
-  <body>
+  <body
+    style="
+      background-color: #f0f0f0;
+      outline: orange;
+      outline-width: 2px;
+      outline-style: solid;
+    "
+  >
     <h1>🛠️ Monitor Widget - Core Vanilla Demo</h1>
 
     <h2>Multiple Subgraphs</h2>
@@ -43,43 +50,42 @@
     <div class="widget-row" id="monitor-down"></div>
 
     <script type="module">
-      import { WidgetApp } from 'https://cdn.jsdelivr.net/npm/monitor-widget@latest/dist/core.mjs';
-
-      const endpoint = 'https://mock-proof-service.vercel.app/api/status';
+      // import { WidgetApp } from 'https://cdn.jsdelivr.net/npm/@chainlove/sla-widget@latest/dist/core.mjs';
+      import { WidgetApp } from '../../dist/core.mjs';
 
       const renderWidget = (subgraphIds, containerId) => {
         const app = new WidgetApp({
           subgraphIds,
-          statusEndpoint: endpoint,
-          refreshIntervalMs: 10000,
-          theme: 'light',
         });
         app.render(document.getElementById(containerId));
       };
 
-      renderWidget(
-        [
-          'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
-          'Qm1234567890abcdefghijklmnopqrstuvwxyz-SyncOk',
-          'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
-          'Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency',
-          'Qm1234567890abcdefghijklmnopqrstuvwxyz-Down',
-        ],
-        'monitor-many',
-      );
+      // renderWidget(
+      //   [
+      //     'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
+      //     'Qm1234567890abcdefghijklmnopqrstuvwxyz-SyncOk',
+      //     'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
+      //     'Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency',
+      //     'Qm1234567890abcdefghijklmnopqrstuvwxyz-Down',
+      //   ],
+      //   'monitor-many',
+      // );
 
       renderWidget(
-        ['Qm1234567890abcdefghijklmnopqrstuvwxyz-SyncOk'],
+        [
+          'QmPMNsmPJ45wgVXrY9eG6tohW7eQYsaTGDeP5yWHeJThkD',
+          'Qme1BrFWgkKVnYdWyhk5Vup1VHcswqNzUMuUpawnSzpaoS',
+        ],
         'monitor-ok',
       );
-      renderWidget(
-        ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency'],
-        'monitor-latency',
-      );
-      renderWidget(
-        ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Down'],
-        'monitor-down',
-      );
+      // renderWidget(
+      //   ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency'],
+      //   'monitor-latency',
+      // );
+      // renderWidget(
+      //   ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Down'],
+      //   'monitor-down',
+      // );
     </script>
   </body>
 </html>
