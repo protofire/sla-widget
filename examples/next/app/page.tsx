@@ -33,15 +33,9 @@ export default function Home() {
           <SLAWidget
             subgraphIds={[
               'QmPo6GrH1A3SAQqRnScTtDy5Y7tDaK1jsfuNDG7WZftVnY',
-              'QmPo6GrH1A3SAQqRnScTtDy5Y7tDaK1jsfuNDG7WZftVnY1',
+              'QmdpNhQPC3gxPd9AdC1PbK574b1mo9n9hy6CHgvm41Qsbm',
+              'Qme1BrFWgkKVnYdWyhk5Vup1VHcswqNzUMuUpawnSzpaoS',
             ]}
-            // customMessages={{
-            //   warning: '1.',
-            // }}
-            // statusEndpoint={'https://mock-proof-service.vercel.app/api/status'}
-            // position="embedded"
-            // details="problemsOnly"
-            // mode="dev"
           />
           <a
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"

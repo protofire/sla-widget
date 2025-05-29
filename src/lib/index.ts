@@ -10,6 +10,7 @@ export class SLAWidget {
   private readonly theming: ThemeManager;
   private readonly styleInjector = new WidgetStyleInjector();
   private options: WidgetAppOptions;
+  private paddingObserver?: ResizeObserver;
 
   constructor(options: WidgetAppOptions) {
     this.options = {
@@ -44,9 +45,14 @@ export class SLAWidget {
       host.style.left = '0';
       host.style.width = '100%';
       host.style.zIndex = '9999';
-      const height = host.getBoundingClientRect().height;
-      document.body.style.paddingTop = `${height}px`;
+
+      this.updateBodyPadding(host);
     }
+  }
+
+  updateBodyPadding(host: HTMLElement) {
+    const height = host.offsetHeight;
+    document.body.style.paddingTop = height > 0 ? `${height}px` : '';
   }
 
   update(options: WidgetAppOptions) {
@@ -66,6 +72,9 @@ export class SLAWidget {
   }
 
   destroy() {
+    this.paddingObserver?.disconnect();
+    document.body.style.paddingTop = '';
+
     this.shadowRoot?.replaceChildren();
     this.theming.cleanup();
     this.renderer.destroy();

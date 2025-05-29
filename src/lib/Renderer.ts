@@ -48,7 +48,7 @@ export class WidgetRenderer {
       const statuses = await fetchSubgraphStatuses(subgraphIds, statusEndpoint);
       this.latestStatuses =
         details === 'problemsOnly'
-          ? statuses.filter((s) => s.health !== 'ok')
+          ? statuses.filter((s) => s.health !== 'ok' && s.health !== 'unknown')
           : statuses;
       this.error = null;
       if (!this.latestStatuses?.length && details === 'problemsOnly') {
@@ -70,6 +70,9 @@ export class WidgetRenderer {
     root.innerHTML = '';
     const content = this.renderMainContent();
     root.appendChild(content);
+
+    this.app.updateBodyPadding(root.host as HTMLElement);
+
     const { mode } = this.app.getOptions();
     if (mode !== 'simple') {
       this.copyHandler.setup(root);
@@ -79,11 +82,15 @@ export class WidgetRenderer {
 
   renderContent(root: ShadowRoot) {
     if (!this.articleEl) return;
+
     this.articleEl.innerHTML = '';
     const newArticle = this.renderArticleContent();
     while (newArticle.firstChild) {
       this.articleEl.appendChild(newArticle.firstChild);
     }
+
+    this.app.updateBodyPadding(root.host as HTMLElement);
+
     const { mode } = this.app.getOptions();
     if (mode !== 'simple') {
       this.copyHandler.setup(root);
