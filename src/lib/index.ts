@@ -102,8 +102,10 @@ export class SLAWidget {
   }
 
   public updateBodyPadding(host: HTMLElement) {
-    const height = host.offsetHeight;
-    document.body.style.paddingTop = height ? `${height}px` : '';
+    if (this.options.position === 'banner') {
+      const height = host.offsetHeight;
+      document.body.style.paddingTop = height ? `${height}px` : '';
+    }
   }
 
   update(options: WidgetAppOptions) {
