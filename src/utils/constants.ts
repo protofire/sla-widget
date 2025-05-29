@@ -12,4 +12,5 @@ export const DEFAULT_MESSAGES = {
     'Oops! A technical error is affecting subgraph availability. Our engineers are fixing it. Nothing is lost — all transactions are safely stored on-chain.',
   unknown:
     'Something’s not right. We’re seeing unexpected behavior in the indexing service and are investigating it. Your on-chain data is secure.',
+  ok: 'All systems operational! Your subgraphs are fully indexed and ready to use.',
 };

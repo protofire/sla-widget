@@ -133,7 +133,7 @@ export class WidgetRenderer {
 
   private buildSummaryMessage(): string {
     const statuses = this.latestStatuses ?? [];
-    const { warning, error, unknown } = this.cards.summarize(statuses);
+    const { warning, error, unknown, ok } = this.cards.summarize(statuses);
     const messages = this.app.getOptions().customMessages ?? {};
     if (warning > 0 || (warning > error && warning > unknown))
       return messages.warning ?? '';
@@ -141,7 +141,9 @@ export class WidgetRenderer {
       return messages.error ?? '';
     if (unknown > 0 || (unknown > warning && unknown > error))
       return messages.unknown ?? '';
-    return '';
+    if (ok > 0 || (ok > warning && ok > error && ok > unknown))
+      return messages.ok ?? '';
+    return 'All subgraphs are healthy.';
   }
 
   private renderArticleContent(): HTMLElement {

@@ -33,8 +33,8 @@ export default function Home() {
           <SLAWidget
             subgraphIds={[
               'QmPo6GrH1A3SAQqRnScTtDy5Y7tDaK1jsfuNDG7WZftVnY',
-              'QmdpNhQPC3gxPd9AdC1PbK574b1mo9n9hy6CHgvm41Qsbm',
-              'Qme1BrFWgkKVnYdWyhk5Vup1VHcswqNzUMuUpawnSzpaoS',
+              // 'QmdpNhQPC3gxPd9AdC1PbK574b1mo9n9hy6CHgvm41Qsbm',
+              // 'Qme1BrFWgkKVnYdWyhk5Vup1VHcswqNzUMuUpawnSzpaoS',
             ]}
             mode="dev"
             details="full"
