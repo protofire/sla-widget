@@ -12,6 +12,7 @@ import { getHideUntil } from '../utils/getHideUntil';
 import { setHideForMinutes } from '../utils/setHideForMinutes';
 import { CloseIcon } from '../utils/icons';
 import { HIDE_MINUTES } from '../utils/constants';
+import { WidgetSettings } from './Settings';
 
 export class WidgetRenderer {
   private app: SLAWidget;
@@ -26,6 +27,7 @@ export class WidgetRenderer {
   private activeIndex = -1;
   private error: string | null = null;
   private articleEl: HTMLElement | null = null;
+  private settings = new WidgetSettings(this);
   private onDataUpdated?: (statuses: SubgraphStatus[]) => void;
 
   constructor(app: SLAWidget) {
@@ -74,6 +76,10 @@ export class WidgetRenderer {
     root.innerHTML = '';
     const content = this.renderMainContent();
     root.appendChild(content);
+
+    if (!root.querySelector('.sla-settings-btn')) {
+      this.settings.create(root);
+    }
 
     this.app.updateBodyPadding(root.host as HTMLElement);
 

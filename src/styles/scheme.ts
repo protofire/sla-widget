@@ -18,6 +18,7 @@ const lightTheme = {
   '--tooltip-bg': '#dddddd',
   '--tooltip-text': '#222222',
   '--tooltip-border': '1px solid #dddddd',
+  '--monitor-border': ' #cccccc',
 };
 
 const darkTheme = {
@@ -27,6 +28,7 @@ const darkTheme = {
   '--tooltip-bg': '#141730',
   '--tooltip-text': '#dddddd',
   '--tooltip-border': '1px solid #555454',
+  '--monitor-border': ' #333333',
 };
 
 const highContrastTheme = {
@@ -36,6 +38,7 @@ const highContrastTheme = {
   '--tooltip-bg': '#000000',
   '--tooltip-text': '#ffffff',
   '--tooltip-border': '1px solid #ffffff',
+  '--monitor-border': ' #ffffff',
 };
 
 export const themeTokensMap: Record<ThemeVariant, Record<string, string>> = {

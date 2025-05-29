@@ -18,8 +18,9 @@ export class SLAWidget {
     this.renderer = new WidgetRenderer(this);
   }
 
-  private setOptions(options: WidgetAppOptions) {
+  private setOptions(options: Partial<WidgetAppOptions>) {
     return {
+      ...this.options,
       ...options,
       pinned: options.pinned ?? 'slide',
       theme: options.theme || 'auto',
@@ -108,7 +109,7 @@ export class SLAWidget {
     }
   }
 
-  update(options: WidgetAppOptions) {
+  update(options: Partial<WidgetAppOptions>) {
     const prevPinned = this.options.pinned;
     this.options = this.setOptions(options);
 
