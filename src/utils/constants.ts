@@ -1,6 +1,10 @@
 export const STATUS_API_URL =
   'https://dev-api.slalayer.xyz/api/v1/subgraphs/heads';
 
+export const HIDE_KEY = 'slaBannerHideUntil';
+
+export const HIDE_MINUTES = 10;
+
 export const DEFAULT_MESSAGES = {
   warning:
     'Some features might not work correctly due to ongoing indexing delays. We’re on it and will restore full functionality soon. Your data is safe and recorded on-chain.',

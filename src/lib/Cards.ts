@@ -255,6 +255,16 @@ export class WidgetCards {
 }
 
 export const cardsStyles = /* css */ `
+  .sla-dismiss {
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 5px;
+    background-color: transparent;
+    border: none;
+    color: var(--monitor-text);
+  }
+
   .card-failed {
     color: var(--monitor-error-color);
     font-size: var(--monitor-font-size);

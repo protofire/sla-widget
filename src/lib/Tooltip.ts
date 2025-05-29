@@ -13,7 +13,6 @@ export class WidgetTooltip {
   setup(root: HTMLElement) {
     if (!root.contains(this.tooltipEl)) {
       root.appendChild(this.tooltipEl);
-      this.tooltipEl.style.visibility = 'hidden';
       this.tooltipEl.style.position = 'absolute';
       this.tooltipEl.style.zIndex = '9999';
     }
@@ -22,37 +21,41 @@ export class WidgetTooltip {
   createTrigger(
     triggerEl: HTMLElement,
     content: string | HTMLElement,
+    position: 'top' | 'bottom' | 'left' | 'right' = 'top',
+    offsetPx = 2,
   ): HTMLElement {
     triggerEl.style.cursor = 'pointer';
+
     triggerEl.addEventListener('mouseenter', () => {
       if (this.hideTimeout) clearTimeout(this.hideTimeout);
-      this.showTooltip(triggerEl, content);
+      this.showTooltip(triggerEl, content, position, offsetPx);
     });
 
-    triggerEl.addEventListener('mouseleave', (event: MouseEvent) => {
-      const related = event.relatedTarget as Node | null;
+    triggerEl.addEventListener('mouseleave', (evt: MouseEvent) => {
+      const related = evt.relatedTarget as Node | null;
       if (
         related &&
         (this.tooltipEl.contains(related) ||
           (this.activeTarget && this.activeTarget.contains(related)))
-      ) {
+      )
         return;
-      }
       this.scheduleHide();
     });
 
     return triggerEl;
   }
 
-  private showTooltip(target: HTMLElement, content: string | HTMLElement) {
+  private showTooltip(
+    target: HTMLElement,
+    content: string | HTMLElement,
+    position: 'top' | 'bottom' | 'left' | 'right',
+    offset = 2,
+  ) {
     this.activeTarget = target;
     this.tooltipEl.innerHTML = '';
-
-    if (typeof content === 'string') {
-      this.tooltipEl.textContent = content;
-    } else {
-      this.tooltipEl.appendChild(content);
-    }
+    typeof content === 'string'
+      ? (this.tooltipEl.textContent = content)
+      : this.tooltipEl.appendChild(content);
 
     this.tooltipEl.classList.remove('hidden');
     this.tooltipEl.classList.add('visible');
@@ -60,12 +63,36 @@ export class WidgetTooltip {
     this.tooltipEl.style.display = 'block';
 
     requestAnimationFrame(() => {
-      const rect = target.getBoundingClientRect();
-      const tooltipRect = this.tooltipEl.getBoundingClientRect();
-      const top = rect.top - tooltipRect.height - 8 + window.scrollY;
-      const left =
-        rect.left + rect.width / 2 - tooltipRect.width / 2 + window.scrollX;
+      const tRect = target.getBoundingClientRect();
+      const tipRect = this.tooltipEl.getBoundingClientRect();
 
+      let top = 0,
+        left = 0;
+
+      switch (position) {
+        case 'bottom':
+          top = tRect.bottom + offset + window.scrollY;
+          left =
+            tRect.left + tRect.width / 2 - tipRect.width / 2 + window.scrollX;
+          break;
+        case 'left':
+          top =
+            tRect.top + tRect.height / 2 - tipRect.height / 2 + window.scrollY;
+          left = tRect.left - tipRect.width - offset + window.scrollX;
+          break;
+        case 'right':
+          top =
+            tRect.top + tRect.height / 2 - tipRect.height / 2 + window.scrollY;
+          left = tRect.right + offset + window.scrollX;
+          break;
+        case 'top':
+        default:
+          top = tRect.top - tipRect.height - offset + window.scrollY;
+          left =
+            tRect.left + tRect.width / 2 - tipRect.width / 2 + window.scrollX;
+      }
+
+      /* невеликий захист від вильоту за вікно */
       this.tooltipEl.style.top = `${Math.max(top, 4)}px`;
       this.tooltipEl.style.left = `${Math.max(left, 4)}px`;
       this.tooltipEl.style.visibility = 'visible';
@@ -81,10 +108,7 @@ export class WidgetTooltip {
   }
 
   private attachTooltipListeners() {
-    this.tooltipEl.addEventListener('mouseleave', () => {
-      this.scheduleHide();
-    });
-
+    this.tooltipEl.addEventListener('mouseleave', () => this.scheduleHide());
     this.tooltipEl.addEventListener('mouseenter', () => {
       if (this.hideTimeout) clearTimeout(this.hideTimeout);
     });

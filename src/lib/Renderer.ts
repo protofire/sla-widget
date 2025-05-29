@@ -8,6 +8,10 @@ import { SubgraphStatus } from '../utils/types';
 import { SLAWidget } from '.';
 import { WidgetTooltip } from './Tooltip';
 import { createElement } from '../utils/createElement';
+import { getHideUntil } from '../utils/getHideUntil';
+import { setHideForMinutes } from '../utils/setHideForMinutes';
+import { CloseIcon } from '../utils/icons';
+import { HIDE_MINUTES } from '../utils/constants';
 
 export class WidgetRenderer {
   private app: SLAWidget;
@@ -99,6 +103,13 @@ export class WidgetRenderer {
   }
 
   private renderMainContent(): HTMLElement {
+    if (
+      this.app.getOptions().position === 'banner' &&
+      getHideUntil() > Date.now()
+    ) {
+      return document.createElement('div');
+    }
+
     const wrapper = document.createElement('div');
     wrapper.className = 'monitor-widget-content';
     if (this.error) {
@@ -128,13 +139,42 @@ export class WidgetRenderer {
   }
 
   private renderArticleContent(): HTMLElement {
-    const { mode } = this.app.getOptions();
-    if (mode === 'simple') {
-      return createElement('article', {}, [
-        createElement('p', {}, this.buildSummaryMessage()),
+    const opts = this.app.getOptions();
+
+    if (opts.mode === 'simple') {
+      const messageP = createElement('p', {}, this.buildSummaryMessage());
+
+      const shouldAddBtn = opts.position === 'banner';
+      const dismissBtn = shouldAddBtn
+        ? createElement('button', { class: 'sla-dismiss' }, CloseIcon())
+        : null;
+
+      if (dismissBtn) {
+        dismissBtn.addEventListener('click', () => {
+          const host = (this.app as any).shadowRoot!.host as HTMLElement;
+          host.style.display = 'none';
+          document.body.style.paddingTop = '';
+          setHideForMinutes();
+        });
+      }
+
+      const article = createElement('article', {}, [
+        messageP,
+        ...(dismissBtn
+          ? [
+              this.tooltip.createTrigger(
+                dismissBtn,
+                `Dismiss for ${HIDE_MINUTES} min`,
+                'left',
+              ),
+            ]
+          : []),
         this.footer.create(),
       ]);
+      this.tooltip.setup(article);
+      return article;
     }
+
     const article = document.createElement('article');
     article.className = 'sla-card';
     article.append(
