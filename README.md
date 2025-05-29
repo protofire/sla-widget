@@ -58,16 +58,7 @@ pnpm add @chainlove/sla-widget
   src="https://cdn.jsdelivr.net/npm/@chainlove/sla-widget@latest/dist/vanilla.mjs"
 ></script>
 
-<monitor-widget
-  subgraph-ids="Qm123...,Qm456..."
-  status-endpoint="https://api.example.com/status"
-  refresh-interval-ms="10000"
-  theme="auto"           <!-- "light" | "dark" | "highContrast" | "auto" -->
-  position="banner"      <!-- "banner" | "embedded" -->
-  details="full"         <!-- "full" | "problemsOnly" -->
-  mode="simple"          <!-- "simple" | "dev" -->
-  custom-messages='{"ok":"All good ✔","warning":"Heads‑up ⚠","error":"Outage ⛔"}'
-></monitor-widget>
+<monitor-widget subgraph-ids="Qm123...,Qm456..."></monitor-widget>
 ```
 
 ### Example
@@ -95,20 +86,7 @@ pnpm add @chainlove/sla-widget
 ```tsx
 import { SLAWidget } from '@chainlove/sla-widget/react';
 
-<SLAWidget
-  subgraphIds={['Qm123...', 'Qm456...']}
-  statusEndpoint="https://api.example.com/status"
-  refreshIntervalMs={10000}
-  theme="auto" // "light" | "dark" | "highContrast" | "auto"
-  position="banner" // "banner" | "embedded"
-  details="problemsOnly" // "full" | "problemsOnly"
-  mode="simple" // "simple" | "dev"
-  customMessages={{
-    ok: 'Everything is green ✔',
-    warning: 'Something looks off ⚠',
-    error: 'Service degraded ⛔',
-  }}
-/>;
+<SLAWidget subgraphIds={['Qm123...', 'Qm456...']} />;
 ```
 
 ### Example
@@ -118,16 +96,16 @@ You can try out the widget live on
 
 ### Props
 
-| Prop                | Type                           | Required | Default        | Description                                   |
-| ------------------- | ------------------------------ | -------- | -------------- | --------------------------------------------- |
-| `subgraphIds`       | `string[]`                     | ✅       | –              | Array of subgraph CIDs                        |
-| `statusEndpoint`    | `string`                       | ❌       | `API_URL`      | API endpoint URL for fetching subgraph status |
-| `refreshIntervalMs` | `number`                       | ❌       | `false`        | Polling interval (ms)                         |
-| `theme`             | `ThemeMode`                    | ❌       | `auto`         | `light` \| `dark` \| `highContrast` \| `auto` |
-| `position`          | `Position`                     | ❌       | `banner`       | `banner` \| `embedded`                        |
-| `details`           | `Details`                      | ❌       | `problemsOnly` | `full` \| `problemsOnly`                      |
-| `mode`              | `Mode`                         | ❌       | `simple`       | `simple` \| `dev`                             |
-| `customMessages`    | `{ [key in Health]?: string }` | ❌       | `{}`           | Override default texts per health state       |
+| Prop                | Type                           | Required | Default        | Description                                                                                                                                                                |
+| ------------------- | ------------------------------ | -------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `subgraphIds`       | `string[]`                     | ✅       | –              | Array of subgraph CIDs                                                                                                                                                     |
+| `statusEndpoint`    | `string`                       | ❌       | `API_URL`      | API endpoint URL for fetching subgraph status                                                                                                                              |
+| `refreshIntervalMs` | `number`                       | ❌       | `false`        | Refresh interval in milliseconds (default false). ⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
+| `theme`             | `ThemeMode`                    | ❌       | `auto`         | `light` \| `dark` \| `highContrast` \| `auto`                                                                                                                              |
+| `position`          | `Position`                     | ❌       | `banner`       | `banner` \| `embedded`                                                                                                                                                     |
+| `details`           | `Details`                      | ❌       | `problemsOnly` | `full` \| `problemsOnly`                                                                                                                                                   |
+| `mode`              | `Mode`                         | ❌       | `simple`       | `simple` \| `dev`                                                                                                                                                          |
+| `customMessages`    | `{ [key in Health]?: string }` | ❌       | `{}`           | Override default texts per health state                                                                                                                                    |
 
 ---
 
@@ -141,16 +119,6 @@ You can try out the widget live on
 
   const app = new WidgetApp({
     subgraphIds: ['Qm123...', 'Qm456...'],
-    statusEndpoint: 'https://api.example.com/status',
-    refreshIntervalMs: 10000,
-    theme: 'auto', // "light" | "dark" | "highContrast" | "auto"
-    position: 'embedded', // "banner" | "embedded"
-    details: 'full', // "full" | "problemsOnly"
-    mode: 'simple', // "simple" | "dev"
-    customMessages: {
-      warning: 'Heads‑up ⚠',
-      error: 'Service interrupted ⛔',
-    },
   });
 
   app.render(document.getElementById('sla-container'));
@@ -164,16 +132,16 @@ You can try out the widget live on
 
 ### Options
 
-| Option              | Type                           | Required | Default        | Description                                   |
-| ------------------- | ------------------------------ | -------- | -------------- | --------------------------------------------- |
-| `subgraphIds`       | `string[]`                     | ✅       | –              | Array of subgraph CIDs                        |
-| `statusEndpoint`    | `string`                       | ❌       | `API_URL`      | API endpoint URL for fetching subgraph status |
-| `refreshIntervalMs` | `number`                       | ❌       | `false`        | Polling interval (ms)                         |
-| `theme`             | `ThemeMode`                    | ❌       | `auto`         | `light` \| `dark` \| `highContrast` \| `auto` |
-| `position`          | `Position`                     | ❌       | `banner`       | `banner` \| `embedded`                        |
-| `details`           | `Details`                      | ❌       | `problemsOnly` | `full` \| `problemsOnly`                      |
-| `mode`              | `Mode`                         | ❌       | `simple`       | `simple` \| `dev`                             |
-| `customMessages`    | `{ [key in Health]?: string }` | ❌       | `{}`           | Override default texts per health state       |
+| Option              | Type                           | Required | Default        | Description                                                                                                                                                                |
+| ------------------- | ------------------------------ | -------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `subgraphIds`       | `string[]`                     | ✅       | –              | Array of subgraph CIDs                                                                                                                                                     |
+| `statusEndpoint`    | `string`                       | ❌       | `API_URL`      | API endpoint URL for fetching subgraph status                                                                                                                              |
+| `refreshIntervalMs` | `number`                       | ❌       | `false`        | Refresh interval in milliseconds (default false). ⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
+| `theme`             | `ThemeMode`                    | ❌       | `auto`         | `light` \| `dark` \| `highContrast` \| `auto`                                                                                                                              |
+| `position`          | `Position`                     | ❌       | `banner`       | `banner` \| `embedded`                                                                                                                                                     |
+| `details`           | `Details`                      | ❌       | `problemsOnly` | `full` \| `problemsOnly`                                                                                                                                                   |
+| `mode`              | `Mode`                         | ❌       | `simple`       | `simple` \| `dev`                                                                                                                                                          |
+| `customMessages`    | `{ [key in Health]?: string }` | ❌       | `{}`           | Override default texts per health state                                                                                                                                    |
 
 ---
 
