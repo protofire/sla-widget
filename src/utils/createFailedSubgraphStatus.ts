@@ -10,9 +10,12 @@ import { SubgraphStatus } from './types';
  * @param subgraphId - ID of the subgraph that failed
  * @returns SubgraphStatus object marked as failed
  */
-export function createFailedSubgraphStatus(subgraphId: string): SubgraphStatus {
+export function createFailedSubgraphStatus(
+  subgraphCid: string,
+): SubgraphStatus {
   return {
-    subgraphId,
+    subgraphId: '',
+    subgraphCid,
     latencyTime: 0,
     latencyBlocks: 0,
     health: 'unknown',
