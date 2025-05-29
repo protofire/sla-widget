@@ -1,6 +1,6 @@
 'use client';
 
-import { MonitorWidget } from '../../../src/integrations/react';
+import { SLAWidget } from '../../../src/integrations/react';
 
 import Image from 'next/image';
 
@@ -30,13 +30,10 @@ export default function Home() {
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <MonitorWidget
+          <SLAWidget
             subgraphIds={[
-              'Qm1234567890abcdefghijklmnopqrstuvwxyz-SyncOk',
-              'Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency',
-              'Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency',
-              'Qm1234567890abcdefghijklmnopqrstuvwxyz-Down',
-              'Qm1234567890abcdefghijklmnopqrstuvwxyz-Down',
+              'QmPo6GrH1A3SAQqRnScTtDy5Y7tDaK1jsfuNDG7WZftVnY',
+              'QmPo6GrH1A3SAQqRnScTtDy5Y7tDaK1jsfuNDG7WZftVnY1',
             ]}
             // customMessages={{
             //   warning: '1.',

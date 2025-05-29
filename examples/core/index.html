@@ -3,89 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <title>🛠️ Monitor Widget - Core Vanilla Demo</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        padding: 40px;
-        line-height: 1.5;
-        text-align: center;
-      }
-      h1 {
-        font-size: 2rem;
-        margin-bottom: 32px;
-      }
-      h2 {
-        font-size: 1.25rem;
-        margin: 32px 0 16px;
-      }
-      .widget-row {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
-        margin-bottom: 40px;
-      }
-    </style>
   </head>
-  <body
-    style="
-      background-color: #f0f0f0;
-      outline: orange;
-      outline-width: 2px;
-      outline-style: solid;
-    "
-  >
+
+  <body style="font-family: sans-serif; padding: 40px; text-align: center">
     <h1>🛠️ Monitor Widget - Core Vanilla Demo</h1>
 
-    <h2>Multiple Subgraphs</h2>
-    <div class="widget-row" id="monitor-many"></div>
-
-    <h2>🟢 OK Subgraph</h2>
-    <div class="widget-row" id="monitor-ok"></div>
-
-    <h2>🟡 Latency Subgraph</h2>
-    <div class="widget-row" id="monitor-latency"></div>
-
-    <h2>🔴 Down Subgraph</h2>
-    <div class="widget-row" id="monitor-down"></div>
-
+    <div id="monitor"></div>
     <script type="module">
-      // import { WidgetApp } from 'https://cdn.jsdelivr.net/npm/@chainlove/sla-widget@latest/dist/core.mjs';
-      import { WidgetApp } from '../../dist/core.mjs';
+      // import { SLAWidget } from 'https://cdn.jsdelivr.net/npm/@chainlove/sla-widget@latest/dist/core.mjs';
+      import { SLAWidget } from '../../dist/core.mjs';
 
-      const renderWidget = (subgraphIds, containerId) => {
-        const app = new WidgetApp({
-          subgraphIds,
-        });
-        app.render(document.getElementById(containerId));
-      };
-
-      // renderWidget(
-      //   [
-      //     'QmPX5etHtNy916C88RtQBybN83XdRt3rwJXZGsEmRGwrZk',
-      //     'Qm1234567890abcdefghijklmnopqrstuvwxyz-SyncOk',
-      //     'QmRakZmjiUjkn5WbGoKdxXkFRjByHnmicRUhpJAAYDdJXa',
-      //     'Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency',
-      //     'Qm1234567890abcdefghijklmnopqrstuvwxyz-Down',
-      //   ],
-      //   'monitor-many',
-      // );
-
-      renderWidget(
-        [
-          'QmPMNsmPJ45wgVXrY9eG6tohW7eQYsaTGDeP5yWHeJThkD',
-          'Qme1BrFWgkKVnYdWyhk5Vup1VHcswqNzUMuUpawnSzpaoS',
-        ],
-        'monitor-ok',
-      );
-      // renderWidget(
-      //   ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Latency'],
-      //   'monitor-latency',
-      // );
-      // renderWidget(
-      //   ['Qm1234567890abcdefghijklmnopqrstuvwxyz-Down'],
-      //   'monitor-down',
-      // );
+      const app = new SLAWidget({
+        subgraphIds: ['QmPMNsmPJ45wgVXrY9eG6tohW7eQYsaTGDeP5yWHeJThkD'],
+      });
+      app.render(document.getElementById('monitor'));
     </script>
   </body>
 </html>

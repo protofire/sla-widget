@@ -38,7 +38,7 @@ export class SLAWidget {
     await this.renderer.loadAndRender(this.shadowRoot);
     this.theming.setupAutoMode(this.shadowRoot);
 
-    if (position === 'banner' && typeof document !== 'undefined') {
+    if (position === 'banner') {
       host.style.position = 'fixed';
       host.style.top = '0';
       host.style.left = '0';
