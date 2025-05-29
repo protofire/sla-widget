@@ -117,6 +117,9 @@ export class WidgetRenderer {
     }
 
     const wrapper = document.createElement('div');
+    if (this.app.getOptions().position !== 'banner') {
+      wrapper.style.borderRadius = 'var(--monitor-border-radius)';
+    }
     wrapper.className = 'monitor-widget-content';
     if (this.error) {
       wrapper.textContent = 'Error loading data';
@@ -185,6 +188,8 @@ export class WidgetRenderer {
 
     const article = document.createElement('article');
     article.className = 'sla-card';
+    // border-radius: var(--monitor-border-radius);
+
     article.append(
       this.controls.create(this.latestStatuses?.length || 0),
       this.cards.create(this.latestStatuses ?? [], this.activeIndex),

@@ -1,7 +1,6 @@
 export const baseStyles = /* css */ `
   .monitor-widget-content {
     padding: 20px;
-    border-radius: var(--monitor-border-radius);
     background: var(--monitor-background);
     color: var(--monitor-text);
     font-family: var(--monitor-font-family);
