@@ -188,7 +188,6 @@ export class WidgetRenderer {
 
     const article = document.createElement('article');
     article.className = 'sla-card';
-    // border-radius: var(--monitor-border-radius);
 
     article.append(
       this.controls.create(this.latestStatuses?.length || 0),
