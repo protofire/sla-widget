@@ -73,6 +73,8 @@ export class SLAWidget {
         requestAnimationFrame(() => {
           const height = host.offsetHeight;
           const scrollY = Math.min(window.scrollY, height);
+          const paddingTop = height - scrollY;
+          document.body.style.paddingTop = paddingTop ? `${paddingTop}px` : '';
           host.style.transform = `translateY(-${scrollY}px)`;
           ticking = false;
         });
