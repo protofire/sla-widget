@@ -10,11 +10,16 @@
 
     <div id="monitor"></div>
     <script type="module">
-      // import { SLAWidget } from 'https://cdn.jsdelivr.net/npm/@chainlove/sla-widget@latest/dist/core.mjs';
-      import { SLAWidget } from '../../dist/core.mjs';
+      import { SLAWidget } from 'https://cdn.jsdelivr.net/npm/@chainlove/sla-widget@1.0.13/dist/core.mjs';
+      // import { SLAWidget } from '../../dist/core.mjs';
 
       const app = new SLAWidget({
-        subgraphIds: ['QmPMNsmPJ45wgVXrY9eG6tohW7eQYsaTGDeP5yWHeJThkD'],
+        subgraphIds: [
+          'QmPo6GrH1A3SAQqRnScTtDy5Y7tDaK1jsfuNDG7WZftVnY',
+          'QmPMNsmPJ45wgVXrY9eG6tohW7eQYsaTGDeP5yWHeJThkD',
+          'QmdpNhQPC3gxPd9AdC1PbK574b1mo9n9hy6CHgvm41Qsbm',
+          'Qme1BrFWgkKVnYdWyhk5Vup1VHcswqNzUMuUpawnSzpaoS',
+        ],
       });
       app.render(document.getElementById('monitor'));
     </script>

@@ -9,7 +9,7 @@ import {
 
 import { SLAWidget } from '../../lib';
 
-class MonitorWidgetElement extends HTMLElement {
+class SLAWidgetElement extends HTMLElement {
   private app: SLAWidget | null = null;
 
   constructor() {
@@ -18,7 +18,7 @@ class MonitorWidgetElement extends HTMLElement {
 
   connectedCallback() {
     const rawIds = this.getAttribute('subgraph-ids');
-    const statusEndpoint = this.getAttribute('status-endpoint') ?? '';
+    const statusEndpoint = this.getAttribute('status-endpoint') || undefined;
     const refreshIntervalMs = this.num(
       this.getAttribute('refresh-interval-ms'),
     );
@@ -76,10 +76,10 @@ class MonitorWidgetElement extends HTMLElement {
   }
 }
 
-if (!customElements.get('monitor-widget')) {
-  customElements.define('monitor-widget', MonitorWidgetElement);
+if (!customElements.get('sla-widget')) {
+  customElements.define('sla-widget', SLAWidgetElement);
 }
 
 if (typeof window !== 'undefined') {
-  (window as any).MonitorWidget = { SLAWidget };
+  (window as any).SLAWidget = { SLAWidget };
 }
