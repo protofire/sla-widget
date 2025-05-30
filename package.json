@@ -6,6 +6,10 @@
   "types": "./dist/core.d.ts",
   "exports": {
     ".": {
+      "import": "./dist/core.mjs",
+      "types": "./dist/core.d.ts"
+    },
+    "./vanilla": {
       "import": "./dist/vanilla.mjs",
       "types": "./dist/vanilla.d.ts"
     },
