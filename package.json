@@ -1,6 +1,6 @@
 {
   "name": "@chainlove/sla-widget",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Cross-framework Widget for Subgraph Monitoring",
   "main": "./dist/core.mjs",
   "types": "./dist/core.d.ts",
