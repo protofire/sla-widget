@@ -57,14 +57,16 @@ pnpm add @chainlove/sla-widget
   type="module"
   src="https://cdn.jsdelivr.net/npm/@chainlove/sla-widget@latest/dist/vanilla.mjs"
 ></script>
-
-<monitor-widget subgraph-ids="Qm123...,Qm456..."></monitor-widget>
+<!-- Default details Attribute: `problemsOnly` -->
+<sla-widget details="full" subgraph-ids="Qm123...,Qm456..."></sla-widget>
 ```
 
 ### Example
 
 👉 **Live demo:**
-[CodePen](https://codepen.io/vasylkivt/pen/JooaYvy?editors=1000)
+
+- [CodePen](https://codepen.io/vasylkivt/pen/JooaYvy?editors=1000)
+- [StackBlitz](https://stackblitz.com/edit/stackblitz-starters-kpquypxn?file=index.html)
 
 ### Attributes
 
@@ -87,13 +89,16 @@ pnpm add @chainlove/sla-widget
 ```tsx
 import { SLAWidget } from '@chainlove/sla-widget/react';
 
-<SLAWidget subgraphIds={['Qm123...', 'Qm456...']} />;
+<SLAWidget
+  details="full" //Default: `problemsOnly`
+  subgraphIds={['Qm123...', 'Qm456...']}
+/>;
 ```
 
 ### Example
 
 You can try out the widget live on
-[StackBlitz](https://stackblitz.com/edit/stackblitz-starters-ngf4cda4?description=The%20React%20framework%20for%20production&file=package.json,app/layout.tsx,app/page.tsx&title=Next.js%20Starter).
+[StackBlitz](https://stackblitz.com/edit/stackblitz-starters-k65hwfih?file=app%2Fpage.tsx).
 
 ### Props
 
@@ -121,6 +126,7 @@ You can try out the widget live on
 
   const app = new SLAWidget({
     subgraphIds: ['Qm123...', 'Qm456...'],
+    details: 'full', //Default: `problemsOnly`
   });
 
   app.render(document.getElementById('sla-container'));
@@ -130,7 +136,9 @@ You can try out the widget live on
 ### Example
 
 You can try out the widget live on
-[CodePen](https://codepen.io/vasylkivt/pen/ZYYMGNd).
+
+- [CodePen](https://codepen.io/vasylkivt/pen/ZYYMGNd).
+- [StackBlitz](https://stackblitz.com/edit/stackblitz-starters-d4a3bbnh?file=index.html)
 
 ### Options
 

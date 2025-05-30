@@ -74,7 +74,13 @@ export class SLAWidget {
           const height = host.offsetHeight;
           const scrollY = Math.min(window.scrollY, height);
           const paddingTop = height - scrollY;
-          document.body.style.paddingTop = paddingTop ? `${paddingTop}px` : '';
+          const currentPaddingTop = parseFloat(
+            getComputedStyle(document.body).paddingTop || '0',
+          );
+          const newPaddingTop = currentPaddingTop + paddingTop;
+          document.body.style.paddingTop = newPaddingTop
+            ? `${newPaddingTop}px`
+            : '';
           host.style.transform = `translateY(-${scrollY}px)`;
           ticking = false;
         });
@@ -107,7 +113,11 @@ export class SLAWidget {
   public updateBodyPadding(host: HTMLElement) {
     if (this.options.position === 'banner') {
       const height = host.offsetHeight;
-      document.body.style.paddingTop = height ? `${height}px` : '';
+      const currentPaddingTop = parseFloat(
+        getComputedStyle(document.body).paddingTop || '0',
+      );
+      const newPaddingTop = currentPaddingTop + height;
+      document.body.style.paddingTop = height ? `${newPaddingTop}px` : '';
     }
   }
 
