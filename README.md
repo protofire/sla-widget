@@ -1,27 +1,40 @@
-# 🧭 SLA Widget
+# SLA Widget
 
-**A lightweight, framework‑agnostic component for surfacing the health & SLA
-status of your subgraphs.** Works with vanilla JS, React, Next.js, or straight
-from a CDN.
+**A lightweight, framework‑agnostic component to display the health & SLA status
+of your subgraphs.** Works with vanilla JS, React, Next.js, or straight from a
+CDN.
+
+---
+
+## 🚀 Quick Start (Minimal Example)
+
+### Web Component
+
+```html
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/@chainlove/sla-widget/dist/vanilla.mjs"
+></script>
+
+<sla-widget subgraph-ids="Qm123...,Qm456..." details="full"></sla-widget>
+```
+
+- [Live demo on CodePen](https://codepen.io/vasylkivt/pen/JooaYvy?editors=1000)
+- [Live demo on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-kpquypxn?file=index.html)
 
 ---
 
 ## ✨ Features
 
-- 🚀 **Drop‑in integration** as a Web Component or a React component
-- 🎨 **4‑way theming**: `light`, `dark`, `highContrast`, or automatic OS
-  detection
-- 🖼️ **Flexible placement** – render as an inline _embedded_ panel or as a
-  page‑wide _banner_
-- 🔎 **Detail control** – choose `full` metadata or `problemsOnly` for a
-  succinct view
-- 🧪 **`dev` & `simple` modes** for quick local hacking or production‑ready
-  embedding
-- 🔄 **Auto‑refresh** with a configurable interval
-- 💬 **Custom messages** per health state (`ok`, `warning`, `error`, `unknown`)
-- ⚠️ **Graceful degradation** if any subgraph API call fails
-- 🌍 **CDN‑ready** or available via npm / yarn / pnpm
-- 📦 **Tiny bundle** size
+- 🚀 Drop-in integration (Web Component or React)
+- 🎨 4 themes: `light`, `dark`, `highContrast`, `auto`
+- 🖼️ Flexible placement: `embedded` panel or `banner`
+- 🔎 Detail levels: `full` or `problemsOnly`
+- 🔄 Auto-refresh (configurable)
+- 💬 Custom messages per health state
+- ⚠️ Graceful degradation on API failure
+- 🌍 CDN or npm / yarn / pnpm
+- 📦 Tiny bundle size
 
 ---
 
@@ -42,132 +55,321 @@ pnpm add @chainlove/sla-widget
 ```html
 <script
   type="module"
-  src="https://cdn.jsdelivr.net/npm/@chainlove/sla-widget@latest/dist/vanilla.mjs"
+  src="https://cdn.jsdelivr.net/npm/@chainlove/sla-widget/dist/vanilla.mjs"
 ></script>
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🏃 Usage
 
-### Vanilla JS (Web Component)
+### 1️⃣ Web Component
 
 ```html
-<script
-  type="module"
-  src="https://cdn.jsdelivr.net/npm/@chainlove/sla-widget@latest/dist/vanilla.mjs"
-></script>
-<!-- Default details Attribute: `problemsOnly` -->
-<sla-widget details="full" subgraph-ids="Qm123...,Qm456..."></sla-widget>
+<sla-widget
+  subgraph-ids="Qm123...,Qm456..."
+  details="full"
+  theme="auto"
+  position="banner"
+></sla-widget>
 ```
 
-### Example
-
-👉 **Live demo:**
-
-- [CodePen](https://codepen.io/vasylkivt/pen/JooaYvy?editors=1000)
-- [StackBlitz](https://stackblitz.com/edit/stackblitz-starters-kpquypxn?file=index.html)
-
-### Attributes
-
-| Attribute             | Type     | Required | Default        | Description                                                                                                                                                                |
-| --------------------- | -------- | -------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `subgraph-ids`        | `string` | ✅       | –              | Comma‑separated list of subgraph CIDs                                                                                                                                      |
-| `status-endpoint`     | `string` | ❌       | `API_URL`      | API endpoint URL for fetching subgraph status                                                                                                                              |
-| `refresh-interval-ms` | `number` | ❌       | `false`        | Refresh interval in milliseconds (default false). ⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
-| `theme`               | `string` | ❌       | `auto`         | `light`, `dark`, `highContrast`, or `auto`                                                                                                                                 |
-| `position`            | `string` | ❌       | `banner`       | `banner` (full‑width) or `embedded` (inline block)                                                                                                                         |
-| `details`             | `string` | ❌       | `problemsOnly` | `full` metadata panel or `problemsOnly` summary                                                                                                                            |
-| `mode`                | `string` | ❌       | `simple`       | `simple` or `dev` (extra debug info)                                                                                                                                       |
-| `pinned`              | `string` | ❌       | `slide`        | `slide` or `fixed`                                                                                                                                                         |
-| `custom-messages`     | `string` | ❌       | –              | JSON string mapping health → custom text, e.g. `{ "ok":"✅", "error":"❌" }`                                                                                               |
+- [Live demo on CodePen](https://codepen.io/vasylkivt/pen/JooaYvy?editors=1000)
+- [Live demo on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-kpquypxn?file=index.html)
 
 ---
 
-### React / Next.js
+### 2️⃣ React / Next.js
 
 ```tsx
 import { SLAWidget } from '@chainlove/sla-widget/react';
 
 <SLAWidget
-  details="full" //Default: `problemsOnly`
   subgraphIds={['Qm123...', 'Qm456...']}
+  details="full"
+  theme="auto"
+  position="banner"
 />;
 ```
 
-### Example
-
-You can try out the widget live on
-[StackBlitz](https://stackblitz.com/edit/stackblitz-starters-k65hwfih?file=app%2Fpage.tsx).
-
-### Props
-
-| Prop                | Type                           | Required | Default        | Description                                                                                                                                                                |
-| ------------------- | ------------------------------ | -------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `subgraphIds`       | `string[]`                     | ✅       | –              | Array of subgraph CIDs                                                                                                                                                     |
-| `statusEndpoint`    | `string`                       | ❌       | `API_URL`      | API endpoint URL for fetching subgraph status                                                                                                                              |
-| `refreshIntervalMs` | `number`                       | ❌       | `false`        | Refresh interval in milliseconds (default false). ⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
-| `theme`             | `ThemeMode`                    | ❌       | `auto`         | `light` \| `dark` \| `highContrast` \| `auto`                                                                                                                              |
-| `position`          | `Position`                     | ❌       | `banner`       | `banner` \| `embedded`                                                                                                                                                     |
-| `details`           | `Details`                      | ❌       | `problemsOnly` | `full` \| `problemsOnly`                                                                                                                                                   |
-| `mode`              | `Mode`                         | ❌       | `simple`       | `simple` \| `dev`                                                                                                                                                          |
-| `pinned`            | `string`                       | ❌       | `slide`        | `slide` or `fixed`                                                                                                                                                         |
-| `customMessages`    | `{ [key in Health]?: string }` | ❌       | `{}`           | Override default texts per health state                                                                                                                                    |
+- [Live demo on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-k65hwfih?file=app%2Fpage.tsx)
 
 ---
 
-### Core JS via CDN
+### 3️⃣ Core JS API (via CDN)
 
 ```html
 <div id="sla-container"></div>
 
 <script type="module">
-  import { SLAWidget } from 'https://cdn.jsdelivr.net/npm/@chainlove/sla-widget@latest/dist/core.mjs';
+  import { SLAWidget } from 'https://cdn.jsdelivr.net/npm/@chainlove/sla-widget/dist/core.mjs';
 
   const app = new SLAWidget({
     subgraphIds: ['Qm123...', 'Qm456...'],
-    details: 'full', //Default: `problemsOnly`
+    details: 'full',
+    theme: 'auto',
+    position: 'banner',
   });
 
   app.render(document.getElementById('sla-container'));
 </script>
 ```
 
-### Example
-
-You can try out the widget live on
-
-- [CodePen](https://codepen.io/vasylkivt/pen/ZYYMGNd).
-- [StackBlitz](https://stackblitz.com/edit/stackblitz-starters-d4a3bbnh?file=index.html)
-
-### Options
-
-| Option              | Type                           | Required | Default        | Description                                                                                                                                                                |
-| ------------------- | ------------------------------ | -------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `subgraphIds`       | `string[]`                     | ✅       | –              | Array of subgraph CIDs                                                                                                                                                     |
-| `statusEndpoint`    | `string`                       | ❌       | `API_URL`      | API endpoint URL for fetching subgraph status                                                                                                                              |
-| `refreshIntervalMs` | `number`                       | ❌       | `false`        | Refresh interval in milliseconds (default false). ⚠️ Note: the underlying data source updates roughly every 10 minutes, but you can set any interval you like in your app. |
-| `theme`             | `ThemeMode`                    | ❌       | `auto`         | `light` \| `dark` \| `highContrast` \| `auto`                                                                                                                              |
-| `position`          | `Position`                     | ❌       | `banner`       | `banner` \| `embedded`                                                                                                                                                     |
-| `details`           | `Details`                      | ❌       | `problemsOnly` | `full` \| `problemsOnly`                                                                                                                                                   |
-| `mode`              | `Mode`                         | ❌       | `simple`       | `simple` \| `dev`                                                                                                                                                          |
-| `pinned`            | `string`                       | ❌       | `slide`        | `slide` or `fixed`                                                                                                                                                         |
-| `customMessages`    | `{ [key in Health]?: string }` | ❌       | `{}`           | Override default texts per health state                                                                                                                                    |
+- [Live demo on CodePen](https://codepen.io/vasylkivt/pen/ZYYMGNd)
+- [Live demo on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-d4a3bbnh?file=index.html)
 
 ---
 
-## 🖌️ Theme Customisation
+## ⚙️ Widget Options (All Modes)
 
-The widget ships with **three built‑in variants** plus an automatic mode:
+### `subgraphIds` / `subgraph-ids` (required)
 
-| Variant        | Screenshot (light surface)                 |
-| -------------- | ------------------------------------------ |
-| `light`        | ☀️ light background, dark text             |
-| `dark`         | 🌙 dark background, light text             |
-| `highContrast` | 🖤 maximised contrast for accessibility    |
-| `auto`         | Adapts to user’s OS `prefers‑color‑scheme` |
+#### Usage:
+
+- **React / CoreJS:** `subgraphIds` → `string[]`
+- **Web Component (HTML):** `subgraph-ids` → comma-separated `string`
+
+#### Type:
+
+- React/CoreJS → `string[]` Example: `['Qm123...', 'Qm456...']`
+- Web Component → comma-separated `string` Example: `"Qm123...,Qm456..."`
+
+#### Description:
+
+**List of Subgraph CIDs to display.**
+
+🔊 You can dynamically update this list:
+
+- **React:** by updating the `subgraphIds` prop
+- **Web Component:** by calling `element.setAttribute('subgraph-ids', '...')`
 
 ---
+
+### `statusEndpoint` / `status-endpoint`
+
+#### Usage:
+
+- **React / CoreJS:** `statusEndpoint` → `string`
+- **Web Component (HTML):** `status-endpoint` → `string`
+
+#### Default: `'API_URL'`
+
+**API endpoint URL for fetching subgraph status.**
+
+---
+
+### `refreshIntervalMs` / `refresh-interval-ms`
+
+#### Usage:
+
+- **React / CoreJS:** `refreshIntervalMs` → `number`
+- **Web Component (HTML):** `refresh-interval-ms` → `number`
+
+#### Default: `false` (disabled)
+
+**How it works:**
+
+- The widget fetches data from API endpoint (`statusEndpoint`).
+- API reflects the result of an **on-chain consensus**, which happens once every
+  **10-minute round** on the smart contract.
+- As a result, **new data appears at most once every 10 minutes** — regardless
+  of how often you fetch.
+
+**Behavior:**
+
+- If you set `refreshIntervalMs = false` (default), the widget fetches data
+  **once**, when the page loads.
+- If you set `refreshIntervalMs` to a value (e.g. `5000` = 5 sec), the widget
+  will fetch data at that interval, but you will likely see the same data
+  between rounds — updates will appear only after the next consensus round.
+- There is no _strict requirement_ for the interval you choose:
+
+  - **Short intervals (1-2 min)** can be useful if you want to show new data as
+    soon as possible.
+  - **Longer intervals (>= 10 min)** reduce API calls and are more
+    bandwidth-friendly.
+
+🔊 In practice, a value between **1 and 10 minutes** works well, depending on
+your app's needs.
+
+---
+
+### `theme`
+
+#### Usage:
+
+- **React / CoreJS:** `theme` → `'light'` | `'dark'` | `'highContrast'` |
+  `'auto'`
+- **Web Component (HTML):** `theme` → same values
+
+#### Default: `'auto'`
+
+**Widget theme.** 🔊 Can be changed dynamically.
+
+---
+
+### `position`
+
+#### Usage:
+
+- **React / CoreJS:** `position` → `'banner'` | `'embedded'`
+- **Web Component (HTML):** `position` → same values
+
+#### Default: `'banner'`
+
+**Widget position on the page:**
+
+- `position="banner"` → widget is displayed as a **banner at the top** of the
+  site.
+- `position="embedded"` → widget is displayed as an inline block (you can place
+  it anywhere in the page).
+
+---
+
+### `details`
+
+#### Usage:
+
+- **React / CoreJS:** `details` → `'full'` | `'problemsOnly'`
+- **Web Component (HTML):** `details` → same values
+
+#### Default: `'problemsOnly'`
+
+**Controls when the widget is shown:**
+
+- `details="full"` → widget is always visible.
+- `details="problemsOnly"` → widget is shown **only** if one or more subgraphs
+  in `subgraph ids` have **Downtime** or **Latency**. It disappears if all
+  subgraphs are in **Uptime**.
+
+---
+
+### `mode`
+
+#### Usage:
+
+- **React / CoreJS:** `mode` → `'simple'` | `'dev'`
+- **Web Component (HTML):** `mode` → same values
+
+#### Default: `'simple'`
+
+**Controls the display mode of the widget:**
+
+- `mode="simple"` → the widget shows a **compact banner** or embedded block:
+
+  - If any subgraph has **Downtime** (`error`) or **Latency** (`warning`), the
+    banner displays a custom message (see `customMessages` / `custom-messages`
+    option below).
+  - If all subgraphs are healthy (`ok`), the banner may be hidden (if
+    `details='problemsOnly'`) or show a neutral state (if `details='full'`).
+
+  Example for customizing messages (for Web Component):
+
+```html
+custom-messages='{"warning":"⚠️ Check this","error":"🚨 Critical issue"}'
+```
+
+Example for customizing messages (for React):
+
+```tsx
+<SLAWidget
+  ...
+  customMessages={{
+    warning: "⚠️ Check this",
+    error: "🚨 Critical issue",
+  }}
+/>
+```
+
+- `mode="dev"` → the widget displays a **detailed panel** with:
+
+  - full list of all subgraphs
+  - current health status for each subgraph
+  - latency / downtime metrics
+  - useful for debugging and monitoring purposes.
+
+🔊 **Typical usage:**
+
+- Use `'simple'` for production websites and user-facing pages.
+- Use `'dev'` for internal dashboards, monitoring panels, or while testing.
+
+---
+
+### `pinned` (this only works for position="banner")
+
+#### Usage:
+
+- **React / CoreJS:** `pinned` → `'slide'` \| `'fixed'`
+- **Web Component (HTML):** `pinned` → same values
+
+#### Default: `'slide'`
+
+**Widget pinning behavior:**
+
+- `'slide'` → widget is placed at the top of the page, **inside the normal page
+  flow**.  
+  When the user scrolls down, the widget will scroll out of view (i.e. it moves
+  with the page).
+- `'fixed'` → widget is **pinned to the viewport** (CSS `position: fixed`) and
+  remains always visible, even when the user scrolls the page.
+
+👉 Use `'fixed'` if you want the widget to stay on screen at all times.  
+Use `'slide'` for more lightweight appearance (standard banner behavior at top
+of page).
+
+---
+
+### `customMessages` / `custom-messages`
+
+#### Usage:
+
+- **React / CoreJS:** `customMessages` → `{ [key in Health]?: string }`
+- **Web Component (HTML):** `custom-messages` → JSON string
+
+#### Default: `{}`
+
+**Custom text to display for each health state.** 🔊 Works **only in
+`mode="simple"`**.
+
+You can override the default built-in labels with your own text or icons for:
+
+- `ok` → when all subgraphs are healthy
+- `warning` → when one or more subgraphs have high latency
+- `error` → when one or more subgraphs are down
+- `unknown` → when the status of one or more subgraphs is unknown
+
+#### Possible keys of `Health`:
+
+```typescript
+export type Health = 'ok' | 'warning' | 'error' | 'unknown';
+```
+
+#### Example for Web Component:
+
+```html
+<sla-widget
+  ...
+  custom-messages='{"ok":"✅ All systems operational","warning":"⚠️ Some delays","error":"🚨 Outage detected","unknown":"❔ Status unknown"}'
+></sla-widget>
+```
+
+#### Example for React:
+
+```tsx
+<SLAWidget
+  ...
+  customMessages={{
+    ok: "✅ All systems operational",
+    warning: "⚠️ Some delays",
+    error: "🚨 Outage detected",
+    unknown: "❔ Status unknown",
+  }}
+```
+
+---
+
+Additionally, when using the widget, you can **dynamically adjust settings**
+(mode, details) by clicking the ⚙️ settings button inside the widget.
 
 ---
 
