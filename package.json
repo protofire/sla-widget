@@ -1,6 +1,6 @@
 {
-  "name": "@chainlove/monitoring-widget",
-  "version": "1.0.0",
+  "name": "@chainlove/sla-widget",
+  "version": "1.0.20",
   "description": "Cross-framework Widget for Monitoring",
   "main": "./dist/core.mjs",
   "types": "./dist/core.d.ts",
