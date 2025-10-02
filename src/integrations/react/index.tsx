@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SLAWidget as Widget } from '../../lib';
-import { WidgetAppOptions } from '../../utils/types';
+import { HealthEnum, WidgetAppOptions } from '../../utils/types';
 
 export const SLAWidget: React.FC<WidgetAppOptions> = (props) => {
   const ref = React.useRef<HTMLDivElement>(null);
@@ -30,10 +30,10 @@ export const SLAWidget: React.FC<WidgetAppOptions> = (props) => {
     props.mode,
     props.pinned,
     props.customMessages,
-    props.customMessages?.warning,
-    props.customMessages?.error,
-    props.customMessages?.unknown,
-    props.customMessages?.ok,
+    props.customMessages?.[HealthEnum.DOWN],
+    props.customMessages?.[HealthEnum.LATENCY],
+    props.customMessages?.[HealthEnum.UNKNOWN],
+    props.customMessages?.[HealthEnum.UP],
   ]);
 
   return <div ref={ref} />;

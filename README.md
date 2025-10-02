@@ -1,8 +1,7 @@
 # SLA Widget
 
-**A lightweight, framework‑agnostic component to display the health & SLA status
-of your subgraphs.** Works with vanilla JS, React, Next.js, or straight from a
-CDN.
+**A lightweight, framework‑agnostic component to display the health status of
+your services.** Works with vanilla JS, React, Next.js, or straight from a CDN.
 
 ---
 
@@ -16,7 +15,7 @@ CDN.
   src="https://cdn.jsdelivr.net/npm/@chainlove/sla-widget/dist/vanilla.mjs"
 ></script>
 
-<sla-widget subgraph-ids="Qm123...,Qm456..." details="full"></sla-widget>
+<sla-widget service-ids="0x123...,0x456..." details="full"></sla-widget>
 ```
 
 - [Live demo on CodePen](https://codepen.io/vasylkivt/pen/JooaYvy?editors=1000)
@@ -67,7 +66,7 @@ pnpm add @chainlove/sla-widget
 
 ```html
 <sla-widget
-  subgraph-ids="Qm123...,Qm456..."
+  service-ids="0x123...,0x456..."
   details="full"
   theme="auto"
   position="banner"
@@ -85,7 +84,7 @@ pnpm add @chainlove/sla-widget
 import { SLAWidget } from '@chainlove/sla-widget/react';
 
 <SLAWidget
-  subgraphIds={['Qm123...', 'Qm456...']}
+  serviceIds={['0x123...', '0x456...']}
   details="full"
   theme="auto"
   position="banner"
@@ -105,7 +104,7 @@ import { SLAWidget } from '@chainlove/sla-widget/react';
   import { SLAWidget } from 'https://cdn.jsdelivr.net/npm/@chainlove/sla-widget/dist/core.mjs';
 
   const app = new SLAWidget({
-    subgraphIds: ['Qm123...', 'Qm456...'],
+    serviceIds: ['0x123...', '0x456...'],
     details: 'full',
     theme: 'auto',
     position: 'banner',
@@ -122,26 +121,26 @@ import { SLAWidget } from '@chainlove/sla-widget/react';
 
 ## ⚙️ Widget Options (All Modes)
 
-### `subgraphIds` / `subgraph-ids` (required)
+### `serviceIds` / `service-ids` (required)
 
 #### Usage:
 
-- **React / CoreJS:** `subgraphIds` → `string[]`
-- **Web Component (HTML):** `subgraph-ids` → comma-separated `string`
+- **React / CoreJS:** `serviceIds` → `string[]`
+- **Web Component (HTML):** `service-ids` → comma-separated `string`
 
 #### Type:
 
-- React/CoreJS → `string[]` Example: `['Qm123...', 'Qm456...']`
-- Web Component → comma-separated `string` Example: `"Qm123...,Qm456..."`
+- React/CoreJS → `string[]` Example: `['0x123...', '0x456...']`
+- Web Component → comma-separated `string` Example: `"0x123...,0x456..."`
 
 #### Description:
 
-**List of Subgraph CIDs to display.**
+**List of Service IDs to display.**
 
 🔊 You can dynamically update this list:
 
-- **React:** by updating the `subgraphIds` prop
-- **Web Component:** by calling `element.setAttribute('subgraph-ids', '...')`
+- **React:** by updating the `serviceIds` prop
+- **Web Component:** by calling `element.setAttribute('service-ids', '...')`
 
 ---
 
@@ -154,7 +153,7 @@ import { SLAWidget } from '@chainlove/sla-widget/react';
 
 #### Default: `'API_URL'`
 
-**API endpoint URL for fetching subgraph status.**
+**API endpoint URL for fetching service status.**
 
 ---
 
@@ -170,27 +169,13 @@ import { SLAWidget } from '@chainlove/sla-widget/react';
 **How it works:**
 
 - The widget fetches data from API endpoint (`statusEndpoint`).
-- API reflects the result of an **on-chain consensus**, which happens once every
-  **10-minute round** on the smart contract.
-- As a result, **new data appears at most once every 10 minutes** — regardless
-  of how often you fetch.
 
 **Behavior:**
 
 - If you set `refreshIntervalMs = false` (default), the widget fetches data
   **once**, when the page loads.
 - If you set `refreshIntervalMs` to a value (e.g. `5000` = 5 sec), the widget
-  will fetch data at that interval, but you will likely see the same data
-  between rounds — updates will appear only after the next consensus round.
-- There is no _strict requirement_ for the interval you choose:
-
-  - **Short intervals (1-2 min)** can be useful if you want to show new data as
-    soon as possible.
-  - **Longer intervals (>= 10 min)** reduce API calls and are more
-    bandwidth-friendly.
-
-🔊 In practice, a value between **1 and 10 minutes** works well, depending on
-your app's needs.
+  will update data at that interval
 
 ---
 
@@ -238,9 +223,9 @@ your app's needs.
 **Controls when the widget is shown:**
 
 - `details="full"` → widget is always visible.
-- `details="problemsOnly"` → widget is shown **only** if one or more subgraphs
-  in `subgraph ids` have **Downtime** or **Latency**. It disappears if all
-  subgraphs are in **Uptime**.
+- `details="problemsOnly"` → widget is shown **only** if one or more services in
+  `service ids` have **Downtime** or **Latency**. It disappears if all services
+  are in **Uptime**.
 
 ---
 
@@ -257,10 +242,10 @@ your app's needs.
 
 - `mode="simple"` → the widget shows a **compact banner** or embedded block:
 
-  - If any subgraph has **Downtime** (`error`) or **Latency** (`warning`), the
+  - If any service has **Downtime** (`error`) or **Latency** (`warning`), the
     banner displays a custom message (see `customMessages` / `custom-messages`
     option below).
-  - If all subgraphs are healthy (`ok`), the banner may be hidden (if
+  - If all service are healthy (`ok`), the banner may be hidden (if
     `details='problemsOnly'`) or show a neutral state (if `details='full'`).
 
   Example for customizing messages (for Web Component):
@@ -283,8 +268,8 @@ Example for customizing messages (for React):
 
 - `mode="dev"` → the widget displays a **detailed panel** with:
 
-  - full list of all subgraphs
-  - current health status for each subgraph
+  - full list of all service
+  - current health status for each service
   - latency / downtime metrics
   - useful for debugging and monitoring purposes.
 
@@ -333,15 +318,15 @@ of page).
 
 You can override the default built-in labels with your own text or icons for:
 
-- `ok` → when all subgraphs are healthy
-- `warning` → when one or more subgraphs have high latency
-- `error` → when one or more subgraphs are down
-- `unknown` → when the status of one or more subgraphs is unknown
+- `UP` → when all services are healthy
+- `LATENCY` → when one or more services have high latency
+- `DOWN` → when one or more services are down
+- `UNKNOWN` → when the status of one or more services is unknown
 
 #### Possible keys of `Health`:
 
 ```typescript
-export type Health = 'ok' | 'warning' | 'error' | 'unknown';
+export type Health = 'UP' | 'LATENCY' | 'DOWN' | 'UNKNOWN';
 ```
 
 #### Example for Web Component:
@@ -349,7 +334,7 @@ export type Health = 'ok' | 'warning' | 'error' | 'unknown';
 ```html
 <sla-widget
   ...
-  custom-messages='{"ok":"✅ All systems operational","warning":"⚠️ Some delays","error":"🚨 Outage detected","unknown":"❔ Status unknown"}'
+  custom-messages='{"UP":"✅ All systems operational","LATENCY":"⚠️ Some delays","DOWN":"🚨 Outage detected","UNKNOWN":"❔ Status unknown"}'
 ></sla-widget>
 ```
 
@@ -358,12 +343,12 @@ export type Health = 'ok' | 'warning' | 'error' | 'unknown';
 ```tsx
 <SLAWidget
   ...
-  customMessages={{
-    ok: "✅ All systems operational",
-    warning: "⚠️ Some delays",
-    error: "🚨 Outage detected",
-    unknown: "❔ Status unknown",
-  }}
+   customMessages={{
+     UP: "✅ All systems operational",
+     LATENCY: "⚠️ Some delays",
+     DOWN: "🚨 Outage detected",
+     UNKNOWN: "❔ Status unknown",
+     }}
 ```
 
 ---

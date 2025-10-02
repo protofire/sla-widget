@@ -2,7 +2,7 @@ import { createElement } from '../utils/createElement';
 import { fmtAgo } from '../utils/fmtAgo';
 import { truncate } from '../utils/truncate';
 import { fmtLatency } from '../utils/fmtLatency';
-import { Health, SubgraphStatus, SummaryData } from '../utils/types';
+import { HealthEnum, ServiceStatus, SummaryData } from '../utils/types';
 import { CopyIcon } from '../utils/icons';
 import { WidgetTooltip } from './Tooltip';
 import { TOOLTIP_TEXT } from '../utils/healthTextTooltip';
@@ -12,7 +12,7 @@ export class WidgetCards {
   constructor(tooltip: WidgetTooltip) {
     this.tooltip = tooltip;
   }
-  create(statuses: SubgraphStatus[], activeIndex: number) {
+  create(statuses: ServiceStatus[], activeIndex: number) {
     if (statuses.length === 1) {
       return this.createSingleCard(statuses[0]);
     }
@@ -21,7 +21,7 @@ export class WidgetCards {
       : this.createSingleCard(statuses[activeIndex]);
   }
 
-  private createSingleCard(status: SubgraphStatus) {
+  private createSingleCard(status: ServiceStatus) {
     return status.failed
       ? this.createFailedCard(status)
       : this.createNormalCard(status);
@@ -29,9 +29,9 @@ export class WidgetCards {
 
   private createSummaryCard(summary: SummaryData) {
     if (
-      summary.ok === 0 &&
-      summary.warning === 0 &&
-      (summary.error !== 0 || summary.unknown !== 0)
+      summary[HealthEnum.UP] === 0 &&
+      summary[HealthEnum.LATENCY] === 0 &&
+      (summary[HealthEnum.DOWN] !== 0 || summary[HealthEnum.UNKNOWN] !== 0)
     ) {
       return createElement(
         'h2',
@@ -52,7 +52,7 @@ export class WidgetCards {
     ]);
   }
 
-  private createNormalCard(status: SubgraphStatus) {
+  private createNormalCard(status: ServiceStatus) {
     return createElement('div', { className: 'card' }, [
       this.createHeader(
         status.health,
@@ -60,11 +60,11 @@ export class WidgetCards {
         status.health,
         status.lastUpdated,
       ),
-      status.health !== 'unknown' ? this.createBodyNormal(status) : '',
+      status.health !== 'UNKNOWN' ? this.createBodyNormal(status) : '',
     ]);
   }
 
-  private createFailedCard(status: SubgraphStatus) {
+  private createFailedCard(status: ServiceStatus) {
     return createElement('div', { className: 'card card-failed' }, [
       createElement(
         'div',
@@ -96,9 +96,9 @@ export class WidgetCards {
   }
 
   private createHeader(
-    health: Health,
+    health: HealthEnum,
     mode: 'single' | 'summary',
-    aria: Health,
+    aria: HealthEnum,
     lastUpdated: number,
     summary?: SummaryData,
   ) {
@@ -122,7 +122,7 @@ export class WidgetCards {
   }
 
   private statusTooltipText(
-    health: Health,
+    health: HealthEnum,
     mode: 'single' | 'summary',
     summary?: SummaryData,
   ): HTMLElement {
@@ -154,12 +154,12 @@ export class WidgetCards {
       createElement(
         'div',
         { className: 'card-subgraph' },
-        `${summary.ok} ok, ${summary.warning} warning, ${summary.error} down${summary.unknown ? `, ${summary.unknown} n/a` : ''}`,
+        `${summary[HealthEnum.UP]} ok, ${summary[HealthEnum.LATENCY]} warning, ${summary[HealthEnum.DOWN]} down${summary[HealthEnum.UNKNOWN] ? `, ${summary[HealthEnum.UNKNOWN]} n/a` : ''}`,
       ),
     ]);
   }
 
-  private createBodyNormal(status: SubgraphStatus) {
+  private createBodyNormal(status: ServiceStatus) {
     return createElement('div', { className: 'card-body' }, [
       this.createParticipantsBlock(
         status.liveVerifiers,
@@ -178,14 +178,14 @@ export class WidgetCards {
     ]);
   }
 
-  summarize(statuses: SubgraphStatus[]): SummaryData {
-    let ok = 0,
-      warning = 0,
-      error = 0,
+  summarize(statuses: ServiceStatus[]): SummaryData {
+    let up = 0,
+      latency = 0,
+      down = 0,
       unknown = 0;
     let totalLatencyTime = 0,
       totalLatencyBlocks = 0;
-    let worst: Health = 'ok';
+    let worst: HealthEnum = HealthEnum.UP;
     let lastUpdated = 0;
     let submittersCount = 0;
 
@@ -194,9 +194,9 @@ export class WidgetCards {
       totalLatencyBlocks += s.avgBlocksLatency;
       submittersCount += s.liveVerifiers;
 
-      if (s.health === 'ok') ok++;
-      else if (s.health === 'warning') warning++;
-      else if (s.health === 'error') error++;
+      if (s.health === HealthEnum.UP) up++;
+      else if (s.health === HealthEnum.LATENCY) latency++;
+      else if (s.health === HealthEnum.DOWN) down++;
       else unknown++;
 
       if (this.isWorse(s.health, worst)) worst = s.health;
@@ -207,10 +207,10 @@ export class WidgetCards {
     });
 
     return {
-      ok,
-      warning,
-      error,
-      unknown,
+      [HealthEnum.UP]: up,
+      [HealthEnum.LATENCY]: latency,
+      [HealthEnum.DOWN]: down,
+      [HealthEnum.UNKNOWN]: unknown,
       avgLatencyTime: Math.round(totalLatencyTime / statuses.length),
       avgLatencyBlocks: Math.round(totalLatencyBlocks / statuses.length),
       worst,
@@ -219,23 +219,29 @@ export class WidgetCards {
     };
   }
 
-  private getOverallHealth(summary: SummaryData): Health {
-    const { warning, error, unknown } = summary;
-    if (unknown > 0) return 'unknown';
-    if (error > 0) return 'error';
-    if (warning > 0) return 'warning';
-    return 'ok';
+  private getOverallHealth(summary: SummaryData): HealthEnum {
+    const { LATENCY, DOWN, UNKNOWN } = summary;
+    if (UNKNOWN > 0) return HealthEnum.UNKNOWN;
+    if (DOWN > 0) return HealthEnum.DOWN;
+    if (LATENCY > 0) return HealthEnum.LATENCY;
+    return HealthEnum.UP;
   }
 
-  private getTitle(health: Health, mode: 'single' | 'summary') {
-    const titles: Record<Health, { single: string; summary: string }> = {
-      ok: { single: 'Service is Active', summary: 'All subgraphs are Active' },
-      warning: {
+  private getTitle(health: HealthEnum, mode: 'single' | 'summary') {
+    const titles: Record<HealthEnum, { single: string; summary: string }> = {
+      [HealthEnum.UP]: {
+        single: 'Service is Active',
+        summary: 'All subgraphs are Active',
+      },
+      [HealthEnum.LATENCY]: {
         single: 'Increased Latency',
         summary: 'Some subgraphs - Latency',
       },
-      error: { single: 'Service is Down', summary: 'Some subgraphs - Down' },
-      unknown: {
+      [HealthEnum.DOWN]: {
+        single: 'Service is Down',
+        summary: 'Some subgraphs - Down',
+      },
+      [HealthEnum.UNKNOWN]: {
         single: 'Monitoring Unavailable',
         summary: 'Some subgraphs - Down',
       },
@@ -243,12 +249,12 @@ export class WidgetCards {
     return titles[health][mode];
   }
 
-  private isWorse(a: Health, b: Health) {
-    const priority: Record<Health, number> = {
-      ok: 3,
-      warning: 2,
-      error: 1,
-      unknown: 0,
+  private isWorse(a: HealthEnum, b: HealthEnum) {
+    const priority: Record<HealthEnum, number> = {
+      [HealthEnum.UP]: 3,
+      [HealthEnum.LATENCY]: 2,
+      [HealthEnum.DOWN]: 1,
+      [HealthEnum.UNKNOWN]: 0,
     };
     return priority[a] < priority[b];
   }

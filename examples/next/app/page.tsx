@@ -31,11 +31,12 @@ export default function Home() {
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <SLAWidget
-            subgraphIds={[
-              'QmPo6GrH1A3SAQqRnScTtDy5Y7tDaK1jsfuNDG7WZftVnY',
+            serviceIds={[
+              '0x7270633a3e66a28e546b6352ec65023070268e41b7f78a2325d7dfe149455fa6',
               // 'QmdpNhQPC3gxPd9AdC1PbK574b1mo9n9hy6CHgvm41Qsbm',
               // 'Qme1BrFWgkKVnYdWyhk5Vup1VHcswqNzUMuUpawnSzpaoS',
             ]}
+            refreshIntervalMs={10000}
             mode="dev"
             details="full"
             position="embedded"

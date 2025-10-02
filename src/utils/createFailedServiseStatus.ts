@@ -1,4 +1,4 @@
-import { SubgraphStatus } from './types';
+import { HealthEnum, ServiceStatus } from './types';
 
 /**
  * Creates a fallback SubgraphStatus object for failed API requests.
@@ -7,15 +7,15 @@ import { SubgraphStatus } from './types';
  * bad response, or network error. It marks the subgraph as `failed: true`
  * and assigns default values (0 latency, unknown health, now as timestamp).
  *
- * @param subgraphId - ID of the subgraph that failed
- * @returns SubgraphStatus object marked as failed
+ * @param serviceId - ID of the service that failed
+ * @returns ServiceStatus object marked as failed
  */
-export function createFailedSubgraphStatus(serviceId: string): SubgraphStatus {
+export function createFailedServiceStatus(serviceId: string): ServiceStatus {
   return {
     serviceId,
     avgTimeLatency: 0,
     avgBlocksLatency: 0,
-    health: 'ok',
+    health: HealthEnum.UNKNOWN,
     lastUpdated: Date.now(),
     failed: true,
     liveVerifiers: 0,

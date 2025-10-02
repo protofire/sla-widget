@@ -2,8 +2,12 @@ export type ThemeVariant = 'light' | 'dark' | 'highContrast';
 
 export type ThemeMode = ThemeVariant | 'auto';
 
-export type Health = 'ok' | 'warning' | 'error' | 'unknown';
-export type Decision = 'UNKNOWN' | 'UP' | 'DOWN' | 'LATENCY';
+export enum HealthEnum {
+  UNKNOWN = 'UNKNOWN',
+  UP = 'UP',
+  DOWN = 'DOWN',
+  LATENCY = 'LATENCY',
+}
 
 export type Position = 'banner' | 'embedded';
 export type Details = 'full' | 'problemsOnly';
@@ -20,7 +24,7 @@ export interface WidgetAppOptions {
   mode?: Mode;
   pinned?: Pinned;
   customMessages?: {
-    [key in Health]?: string;
+    [key in HealthEnum]?: string;
   };
 }
 
@@ -28,16 +32,16 @@ export interface RawStatus {
   serviceId: string;
   avgBlocksLatency: number;
   avgTimeLatency: number;
-  decision: Decision;
+  decision: HealthEnum;
   liveVerifiers: number;
   timestamp: string; // bigint
 }
 
-export interface SubgraphStatus {
+export interface ServiceStatus {
   serviceId: string;
   avgBlocksLatency: number;
   avgTimeLatency: number;
-  health: Health;
+  health: HealthEnum;
   lastUpdated: number;
   failed?: boolean;
   liveVerifiers: number;
@@ -50,13 +54,13 @@ export interface ElementProps {
 }
 
 export interface SummaryData {
-  ok: number;
-  warning: number;
-  error: number;
-  unknown: number;
+  [HealthEnum.UP]: number;
+  [HealthEnum.LATENCY]: number;
+  [HealthEnum.DOWN]: number;
+  [HealthEnum.UNKNOWN]: number;
   avgLatencyTime: number;
   avgLatencyBlocks: number;
-  worst: Health;
+  worst: HealthEnum;
   lastUpdated: number;
   submittersCount: number;
 }

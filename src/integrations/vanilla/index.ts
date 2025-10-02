@@ -3,7 +3,7 @@ import {
   Position,
   Details,
   Mode,
-  Health,
+  HealthEnum,
   Pinned,
 } from '../../utils/types';
 
@@ -30,7 +30,7 @@ class SLAWidgetElement extends HTMLElement {
     const rawCustomMessages = this.getAttribute('custom-messages');
 
     if (!rawIds) {
-      console.error('sla-widget: attribute "subgraph-ids" is required.');
+      console.error('sla-widget: attribute "service-ids" is required.');
       return;
     }
 
@@ -39,7 +39,7 @@ class SLAWidgetElement extends HTMLElement {
       .map((id) => id.trim())
       .filter(Boolean);
 
-    let customMessages: Partial<Record<Health, string>> | undefined;
+    let customMessages: Partial<Record<HealthEnum, string>> | undefined;
     if (rawCustomMessages) {
       try {
         customMessages = JSON.parse(rawCustomMessages);

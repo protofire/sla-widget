@@ -3,8 +3,8 @@ import { WidgetCards } from './Cards';
 import { WidgetCopyHandler } from './CopyHandler';
 import { WidgetFooter } from './Footer';
 import { WidgetSkeleton } from './Skeleton';
-import { fetchSubgraphStatuses } from '../utils/fetchSubgraphStatuses';
-import { SubgraphStatus } from '../utils/types';
+
+import { HealthEnum, ServiceStatus } from '../utils/types';
 import { SLAWidget } from '.';
 import { WidgetTooltip } from './Tooltip';
 import { createElement } from '../utils/createElement';
@@ -13,6 +13,7 @@ import { setHideForMinutes } from '../utils/setHideForMinutes';
 import { CloseIcon } from '../utils/icons';
 import { HIDE_MINUTES } from '../utils/constants';
 import { WidgetSettings } from './Settings';
+import { fetchServiceStatuses } from '../utils/fetchServiceStatuses';
 
 export class WidgetRenderer {
   private app: SLAWidget;
@@ -22,20 +23,20 @@ export class WidgetRenderer {
   private footer = new WidgetFooter();
   private skeleton = new WidgetSkeleton();
   private tooltip = new WidgetTooltip();
-  private latestStatuses: SubgraphStatus[] | null = null;
+  private latestStatuses: ServiceStatus[] | null = null;
   private refreshIntervalId: number | null = null;
   private activeIndex = -1;
   private error: string | null = null;
   private articleEl: HTMLElement | null = null;
   private settings = new WidgetSettings(this);
-  private onDataUpdated?: (statuses: SubgraphStatus[]) => void;
+  private onDataUpdated?: (statuses: ServiceStatus[]) => void;
 
   constructor(app: SLAWidget) {
     this.app = app;
     this.cards = new WidgetCards(this.tooltip);
   }
 
-  setOnDataUpdated(callback: (statuses: SubgraphStatus[]) => void) {
+  setOnDataUpdated(callback: (statuses: ServiceStatus[]) => void) {
     this.onDataUpdated = callback;
   }
 
@@ -51,10 +52,13 @@ export class WidgetRenderer {
   async updateStatuses(root: ShadowRoot, silent = false) {
     const { serviceIds, statusEndpoint, details } = this.app.getOptions();
     try {
-      const statuses = await fetchSubgraphStatuses(serviceIds, statusEndpoint);
+      const statuses = await fetchServiceStatuses(serviceIds, statusEndpoint);
       this.latestStatuses =
         details === 'problemsOnly'
-          ? statuses.filter((s) => s.health !== 'ok' && s.health !== 'unknown')
+          ? statuses.filter(
+              (s) =>
+                s.health !== HealthEnum.UP && s.health !== HealthEnum.UNKNOWN,
+            )
           : statuses;
       this.error = null;
       if (!this.latestStatuses?.length && details === 'problemsOnly') {
@@ -136,16 +140,16 @@ export class WidgetRenderer {
 
   private buildSummaryMessage(): string {
     const statuses = this.latestStatuses ?? [];
-    const { warning, error, unknown, ok } = this.cards.summarize(statuses);
+    const { LATENCY, DOWN, UNKNOWN, UP } = this.cards.summarize(statuses);
     const messages = this.app.getOptions().customMessages ?? {};
-    if (warning > 0 || (warning > error && warning > unknown))
-      return messages.warning ?? '';
-    if (error > 0 || (error > warning && error > unknown))
-      return messages.error ?? '';
-    if (unknown > 0 || (unknown > warning && unknown > error))
-      return messages.unknown ?? '';
-    if (ok > 0 || (ok > warning && ok > error && ok > unknown))
-      return messages.ok ?? '';
+    if (LATENCY > 0 || (LATENCY > DOWN && LATENCY > UNKNOWN))
+      return messages.LATENCY ?? '';
+    if (DOWN > 0 || (DOWN > LATENCY && DOWN > UNKNOWN))
+      return messages.DOWN ?? '';
+    if (UNKNOWN > 0 || (UNKNOWN > LATENCY && UNKNOWN > DOWN))
+      return messages.UNKNOWN ?? '';
+    if (UP > 0 || (UP > LATENCY && UP > DOWN && UP > UNKNOWN))
+      return messages.UP ?? '';
     return 'All subgraphs are healthy.';
   }
 

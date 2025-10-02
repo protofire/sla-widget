@@ -1,8 +1,8 @@
 import { createElement } from './createElement';
-import { SummaryData } from './types';
+import { HealthEnum, SummaryData } from './types';
 
 export const TOOLTIP_TEXT = {
-  ok: {
+  UP: {
     single: () =>
       createElement('div', {}, [
         createElement('strong', {}, '✅ OK:'),
@@ -11,10 +11,10 @@ export const TOOLTIP_TEXT = {
     summary: (s: SummaryData) =>
       createElement('div', {}, [
         createElement('strong', {}, '✅ OK:'),
-        `All ${s.ok} subgraphs are active.`,
+        `All ${s[HealthEnum.UP]} subgraphs are active.`,
       ]),
   },
-  warning: {
+  LATENCY: {
     single: () =>
       createElement('div', {}, [
         createElement('strong', {}, '⚠️ Warning:'),
@@ -23,10 +23,10 @@ export const TOOLTIP_TEXT = {
     summary: (s: SummaryData) =>
       createElement('div', {}, [
         createElement('strong', {}, '⚠️ Warning:'),
-        `${s.warning} of ${s.ok + s.warning + s.error + s.unknown} subgraphs have latency.`,
+        `${s[HealthEnum.LATENCY]} of ${s[HealthEnum.UP] + s[HealthEnum.LATENCY] + s[HealthEnum.DOWN] + s[HealthEnum.UNKNOWN]} subgraphs have latency.`,
       ]),
   },
-  error: {
+  DOWN: {
     single: () =>
       createElement('div', {}, [
         createElement('strong', {}, '❌ Error:'),
@@ -35,10 +35,10 @@ export const TOOLTIP_TEXT = {
     summary: (s: SummaryData) =>
       createElement('div', {}, [
         createElement('strong', {}, '⚠️'),
-        `${s.error} of ${s.ok + s.warning + s.error + s.unknown} subgraphs are down.`,
+        `${s[HealthEnum.DOWN]} of ${s[HealthEnum.UP] + s[HealthEnum.LATENCY] + s[HealthEnum.DOWN] + s[HealthEnum.UNKNOWN]} subgraphs are down.`,
       ]),
   },
-  unknown: {
+  UNKNOWN: {
     single: () =>
       createElement('div', {}, [
         createElement('strong', {}, '❓ Unknown:'),
@@ -47,7 +47,7 @@ export const TOOLTIP_TEXT = {
     summary: (s: SummaryData) =>
       createElement('div', {}, [
         createElement('strong', {}, '❓'),
-        `${s.unknown} of ${s.ok + s.warning + s.error + s.unknown} subgraphs are unavailable.`,
+        `${s[HealthEnum.UNKNOWN]} of ${s[HealthEnum.UP] + s[HealthEnum.LATENCY] + s[HealthEnum.DOWN] + s[HealthEnum.UNKNOWN]} subgraphs are unavailable.`,
       ]),
   },
 };
