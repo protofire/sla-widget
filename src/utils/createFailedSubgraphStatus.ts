@@ -10,17 +10,14 @@ import { SubgraphStatus } from './types';
  * @param subgraphId - ID of the subgraph that failed
  * @returns SubgraphStatus object marked as failed
  */
-export function createFailedSubgraphStatus(
-  subgraphCid: string,
-): SubgraphStatus {
+export function createFailedSubgraphStatus(serviceId: string): SubgraphStatus {
   return {
-    subgraphId: '',
-    subgraphCid,
-    latencyTime: 0,
-    latencyBlocks: 0,
-    health: 'unknown',
-    lastUpdated: Date.now() / 1000,
+    serviceId,
+    avgTimeLatency: 0,
+    avgBlocksLatency: 0,
+    health: 'ok',
+    lastUpdated: Date.now(),
     failed: true,
-    submittersCount: 0,
+    liveVerifiers: 0,
   };
 }

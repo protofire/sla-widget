@@ -21,7 +21,7 @@ export const SLAWidget: React.FC<WidgetAppOptions> = (props) => {
       appRef.current?.destroy();
     };
   }, [
-    props.subgraphIds.join(','),
+    props.serviceIds.join(','),
     props.statusEndpoint,
     props.refreshIntervalMs,
     props.theme,

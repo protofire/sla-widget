@@ -72,8 +72,8 @@ export class WidgetCards {
         'Subgraph Load Failed',
       ),
       createElement('div', { className: 'card-subgraph' }, [
-        `Subgraph: ${truncate(status.subgraphCid)}`,
-        this.createCopyButton(status.subgraphCid),
+        `Subgraph: ${truncate(status.serviceId)}`,
+        this.createCopyButton(status.serviceId),
       ]),
       createElement(
         'div',
@@ -162,18 +162,18 @@ export class WidgetCards {
   private createBodyNormal(status: SubgraphStatus) {
     return createElement('div', { className: 'card-body' }, [
       this.createParticipantsBlock(
-        status.submittersCount,
+        status.liveVerifiers,
         'Number of unique Participants who submitted proofs for this round.',
       ),
 
       createElement('div', { className: 'card-subgraph' }, [
-        `Subgraph: ${truncate(status.subgraphCid)}`,
-        this.createCopyButton(status.subgraphCid),
+        `Subgraph: ${truncate(status.serviceId)}`,
+        this.createCopyButton(status.serviceId),
       ]),
       createElement(
         'div',
         { className: 'card-latency' },
-        `Latency: ${fmtLatency(status.latencyTime)} | ${status.latencyBlocks} blocks behind`,
+        `Latency: ${fmtLatency(status.avgTimeLatency)} | ${status.avgBlocksLatency} blocks behind`,
       ),
     ]);
   }
@@ -190,9 +190,9 @@ export class WidgetCards {
     let submittersCount = 0;
 
     statuses.forEach((s) => {
-      totalLatencyTime += s.latencyTime;
-      totalLatencyBlocks += s.latencyBlocks;
-      submittersCount += s.submittersCount;
+      totalLatencyTime += s.avgTimeLatency;
+      totalLatencyBlocks += s.avgBlocksLatency;
+      submittersCount += s.liveVerifiers;
 
       if (s.health === 'ok') ok++;
       else if (s.health === 'warning') warning++;

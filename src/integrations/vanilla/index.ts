@@ -17,7 +17,7 @@ class SLAWidgetElement extends HTMLElement {
   }
 
   connectedCallback() {
-    const rawIds = this.getAttribute('subgraph-ids');
+    const rawIds = this.getAttribute('service-ids');
     const statusEndpoint = this.getAttribute('status-endpoint') || undefined;
     const refreshIntervalMs = this.num(
       this.getAttribute('refresh-interval-ms'),
@@ -34,7 +34,7 @@ class SLAWidgetElement extends HTMLElement {
       return;
     }
 
-    const subgraphIds = rawIds
+    const serviceIds = rawIds
       .split(',')
       .map((id) => id.trim())
       .filter(Boolean);
@@ -52,7 +52,7 @@ class SLAWidgetElement extends HTMLElement {
     }
 
     this.app = new SLAWidget({
-      subgraphIds,
+      serviceIds,
       statusEndpoint,
       refreshIntervalMs,
       theme,

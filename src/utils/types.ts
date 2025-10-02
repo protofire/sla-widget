@@ -3,6 +3,7 @@ export type ThemeVariant = 'light' | 'dark' | 'highContrast';
 export type ThemeMode = ThemeVariant | 'auto';
 
 export type Health = 'ok' | 'warning' | 'error' | 'unknown';
+export type Decision = 'UNKNOWN' | 'UP' | 'DOWN' | 'LATENCY';
 
 export type Position = 'banner' | 'embedded';
 export type Details = 'full' | 'problemsOnly';
@@ -10,7 +11,7 @@ export type Mode = 'dev' | 'simple';
 export type Pinned = 'fixed' | 'slide';
 
 export interface WidgetAppOptions {
-  subgraphIds: string[];
+  serviceIds: string[];
   statusEndpoint?: string;
   refreshIntervalMs?: number;
   theme?: ThemeMode;
@@ -24,25 +25,22 @@ export interface WidgetAppOptions {
 }
 
 export interface RawStatus {
-  indexer: string;
+  serviceId: string;
+  avgBlocksLatency: number;
+  avgTimeLatency: number;
+  decision: Decision;
+  liveVerifiers: number;
   timestamp: string; // bigint
-  subgraphId: string;
-  subgraphCid: string;
-  latencyBlocks: number;
-  latencyTime: number;
-  syncStatus: 0 | 1 | 2;
-  submittersCount: number;
 }
 
 export interface SubgraphStatus {
-  subgraphId: string;
-  subgraphCid: string;
-  latencyBlocks: number;
-  latencyTime: number;
+  serviceId: string;
+  avgBlocksLatency: number;
+  avgTimeLatency: number;
   health: Health;
   lastUpdated: number;
   failed?: boolean;
-  submittersCount: number;
+  liveVerifiers: number;
 }
 
 export interface ElementProps {

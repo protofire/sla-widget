@@ -40,18 +40,18 @@ export class WidgetRenderer {
   }
 
   async loadAndRender(root: ShadowRoot) {
-    const { subgraphIds, details, position } = this.app.getOptions();
+    const { serviceIds, details, position } = this.app.getOptions();
     if (details !== 'problemsOnly' && position !== 'banner') {
-      this.showSkeleton(root, subgraphIds.length);
+      this.showSkeleton(root, serviceIds.length);
     }
     await this.updateStatuses(root);
     this.setupAutoRefresh(root);
   }
 
   async updateStatuses(root: ShadowRoot, silent = false) {
-    const { subgraphIds, statusEndpoint, details } = this.app.getOptions();
+    const { serviceIds, statusEndpoint, details } = this.app.getOptions();
     try {
-      const statuses = await fetchSubgraphStatuses(subgraphIds, statusEndpoint);
+      const statuses = await fetchSubgraphStatuses(serviceIds, statusEndpoint);
       this.latestStatuses =
         details === 'problemsOnly'
           ? statuses.filter((s) => s.health !== 'ok' && s.health !== 'unknown')
