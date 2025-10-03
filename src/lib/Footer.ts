@@ -8,13 +8,13 @@ export class WidgetFooter {
         createElement('img', {
           className: 'footer-logo',
           src: defaultLogoBase64,
-          alt: 'SLA Layer logo',
+          alt: 'Chain Love logo',
           loading: 'lazy',
         }),
         createElement(
           'span',
           { className: 'footer-text' },
-          'Powered by SLALayer',
+          'Powered by Chain.Love',
         ),
       ]),
     ]);

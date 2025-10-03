@@ -92,7 +92,6 @@ export class WidgetTooltip {
             tRect.left + tRect.width / 2 - tipRect.width / 2 + window.scrollX;
       }
 
-      /* невеликий захист від вильоту за вікно */
       this.tooltipEl.style.top = `${Math.max(top, 4)}px`;
       this.tooltipEl.style.left = `${Math.max(left, 4)}px`;
       this.tooltipEl.style.visibility = 'visible';

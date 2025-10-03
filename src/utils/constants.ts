@@ -4,6 +4,9 @@ export const HIDE_KEY = 'slaBannerHideUntil';
 
 export const HIDE_MINUTES = 10;
 
+export const MIN_REFRESH_INTERVAL = 1000; // 1 second
+export const MAX_REFRESH_INTERVAL = 3600000; // 1 hour
+
 export const DEFAULT_MESSAGES = {
   warning:
     'Some features might not work correctly due to ongoing indexing delays. We’re on it and will restore full functionality soon. Your data is safe and recorded on-chain.',

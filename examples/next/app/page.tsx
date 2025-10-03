@@ -33,13 +33,15 @@ export default function Home() {
           <SLAWidget
             serviceIds={[
               '0x7270633a3e66a28e546b6352ec65023070268e41b7f78a2325d7dfe149455fa6',
+              '0x7270633a3e66a28e546b6352ec65023070268e41b7f78a2325d7dfe149455fa6',
               // 'QmdpNhQPC3gxPd9AdC1PbK574b1mo9n9hy6CHgvm41Qsbm',
               // 'Qme1BrFWgkKVnYdWyhk5Vup1VHcswqNzUMuUpawnSzpaoS',
             ]}
-            refreshIntervalMs={10000}
+            refreshIntervalMs={100000}
             mode="dev"
             details="full"
             position="embedded"
+            pinned="fixed"
           />
           <a
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"

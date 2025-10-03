@@ -231,19 +231,19 @@ export class WidgetCards {
     const titles: Record<HealthEnum, { single: string; summary: string }> = {
       [HealthEnum.UP]: {
         single: 'Service is Active',
-        summary: 'All subgraphs are Active',
+        summary: 'All Services are Active',
       },
       [HealthEnum.LATENCY]: {
         single: 'Increased Latency',
-        summary: 'Some subgraphs - Latency',
+        summary: 'Some Services - Latency',
       },
       [HealthEnum.DOWN]: {
         single: 'Service is Down',
-        summary: 'Some subgraphs - Down',
+        summary: 'Some Services - Down',
       },
       [HealthEnum.UNKNOWN]: {
         single: 'Monitoring Unavailable',
-        summary: 'Some subgraphs - Down',
+        summary: 'Some Services - Down',
       },
     };
     return titles[health][mode];

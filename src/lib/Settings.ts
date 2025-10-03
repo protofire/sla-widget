@@ -1,11 +1,12 @@
 import { SettingsIcon } from '../utils/icons';
 import { createElement } from '../utils/createElement';
 import { WidgetRenderer } from './Renderer';
+import { Details, Mode } from '../utils/types';
 
 export class WidgetSettings {
   constructor(private renderer: WidgetRenderer) {}
 
-  create(root: ShadowRoot) {
+  create(root: HTMLElement) {
     const opts = this.renderer.getApp().getOptions();
 
     const modeLabel = createElement('label', {}, 'Mode:');
@@ -35,8 +36,11 @@ export class WidgetSettings {
           onClick: () => {
             pop.classList.add('hidden');
             this.renderer.getApp().update({
-              mode: modeSel.value as any,
-              details: detSel.value as any,
+              ...opts,
+
+              // TODO validate values
+              mode: modeSel.value as Mode,
+              details: detSel.value as Details,
             });
           },
         },
@@ -50,8 +54,22 @@ export class WidgetSettings {
         className: 'sla-settings-btn',
         onclick: () => pop.classList.toggle('hidden'),
       },
-      SettingsIcon(),
+      'Action',
     );
+
+    requestAnimationFrame(() => {
+      const tRect = root.getBoundingClientRect();
+      const popRect = btn.getBoundingClientRect();
+
+      let top = 0,
+        left = 0;
+
+      top = tRect.top + window.scrollY + btn.offsetHeight / 2;
+      left = popRect.left + window.scrollX;
+
+      pop.style.top = `${Math.max(top, 4)}px`;
+      pop.style.left = `${Math.max(left, 4)}px`;
+    });
 
     root.appendChild(btn);
     root.appendChild(pop);
@@ -112,22 +130,16 @@ export const settingsStyles = /* css */ `
     }
   }
   .sla-settings-btn {
-    position: absolute;
-    bottom: 6px;
-    left: 8px;
-    width: 18px;
-    height: 18px;
     cursor: pointer;
-    background: none;
+    background: #f76d18;
     border: 0;
-    padding: 0;
+    border-radius: 4px;
+    padding: 6px 12px;
 
     color: var(--tooltip-text);
   }
   .sla-settings-pop {
     position: absolute;
-    bottom: 30px;
-    left: 34px;
     transform: translateY(100%);
     background: var(--tooltip-bg);
     border: var(--tooltip-border);

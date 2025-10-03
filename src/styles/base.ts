@@ -2,6 +2,7 @@ export const baseStyles = /* css */ `
   .monitor-widget-content {
     padding: 20px;
     background: var(--monitor-background);
+    border: 1px solid var(--monitor-border);
     color: var(--monitor-text);
     font-family: var(--monitor-font-family);
     font-size: var(--monitor-font-size);

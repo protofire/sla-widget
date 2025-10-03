@@ -11,7 +11,11 @@ import { createElement } from '../utils/createElement';
 import { getHideUntil } from '../utils/getHideUntil';
 import { setHideForMinutes } from '../utils/setHideForMinutes';
 import { CloseIcon } from '../utils/icons';
-import { HIDE_MINUTES } from '../utils/constants';
+import {
+  HIDE_MINUTES,
+  MAX_REFRESH_INTERVAL,
+  MIN_REFRESH_INTERVAL,
+} from '../utils/constants';
 import { WidgetSettings } from './Settings';
 import { fetchServiceStatuses } from '../utils/fetchServiceStatuses';
 
@@ -82,7 +86,7 @@ export class WidgetRenderer {
     root.appendChild(content);
 
     if (!root.querySelector('.sla-settings-btn')) {
-      this.settings.create(root);
+      this.settings.create(content);
     }
 
     this.app.updateBodyPadding(root.host as HTMLElement);
@@ -135,6 +139,7 @@ export class WidgetRenderer {
     }
     this.articleEl = this.renderArticleContent();
     wrapper.appendChild(this.articleEl);
+
     return wrapper;
   }
 
@@ -210,9 +215,12 @@ export class WidgetRenderer {
     this.clearAutoRefresh();
     const interval = this.app.getOptions().refreshIntervalMs;
     if (!interval || isNaN(interval)) return;
-    this.refreshIntervalId = window.setInterval(() => {
-      this.updateStatuses(root, true);
-    }, interval);
+    this.refreshIntervalId = window.setInterval(
+      () => {
+        this.updateStatuses(root, true);
+      },
+      Math.max(MIN_REFRESH_INTERVAL, Math.min(MAX_REFRESH_INTERVAL, interval)),
+    );
   }
 
   private clearAutoRefresh() {
