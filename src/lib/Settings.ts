@@ -35,6 +35,7 @@ export class WidgetSettings {
           className: 'sla-settings-apply',
           onClick: () => {
             pop.classList.add('hidden');
+            pop.style.transform = 'translateY(100%)';
             this.renderer.getApp().update({
               ...opts,
 
@@ -52,24 +53,24 @@ export class WidgetSettings {
       'button',
       {
         className: 'sla-settings-btn',
-        onclick: () => pop.classList.toggle('hidden'),
+        onclick: () => {
+          const willShow = pop.classList.contains('hidden');
+          if (willShow) {
+            pop.classList.remove('hidden');
+            const btnRect = btn.getBoundingClientRect();
+            pop.style.top = `${Math.max(btnRect.bottom + window.scrollY + 4, 4)}px`;
+            pop.style.left = `${Math.max(btnRect.left + window.scrollX, 4)}px`;
+            pop.style.transform = 'translateY(0)';
+          } else {
+            pop.classList.add('hidden');
+            pop.style.transform = 'translateY(100%)';
+          }
+        },
       },
       'Action',
     );
 
-    requestAnimationFrame(() => {
-      const tRect = root.getBoundingClientRect();
-      const popRect = btn.getBoundingClientRect();
-
-      let top = 0,
-        left = 0;
-
-      top = tRect.top + window.scrollY + btn.offsetHeight / 2;
-      left = popRect.left + window.scrollX;
-
-      pop.style.top = `${Math.max(top, 4)}px`;
-      pop.style.left = `${Math.max(left, 4)}px`;
-    });
+    pop.style.transform = 'translateY(100%)';
 
     root.appendChild(btn);
     root.appendChild(pop);
