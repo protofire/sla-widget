@@ -1,6 +1,6 @@
 {
   "name": "monitor-widget",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "Cross-framework Widget for Monitoring",
   "main": "./dist/core.mjs",
   "types": "./dist/core.d.ts",
