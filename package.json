@@ -1,5 +1,5 @@
 {
-  "name": "@chainlove/sla-widget",
+  "name": "monitor-widget",
   "version": "1.0.23",
   "description": "Cross-framework Widget for Monitoring",
   "main": "./dist/core.mjs",
