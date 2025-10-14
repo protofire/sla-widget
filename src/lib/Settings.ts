@@ -9,6 +9,13 @@ export class WidgetSettings {
   create(root: HTMLElement) {
     const opts = this.renderer.getApp().getOptions();
 
+    if (typeof window !== 'undefined') {
+      const { position } = window.getComputedStyle(root);
+      if (!position || position === 'static') {
+        root.style.position = 'relative';
+      }
+    }
+
     const modeLabel = createElement('label', {}, 'Mode:');
     const modeSel = createElement('select', { className: 'select' }, [
       createElement('option', { value: 'simple' }, 'Minimal UI'),
@@ -57,13 +64,29 @@ export class WidgetSettings {
           const willShow = pop.classList.contains('hidden');
           if (willShow) {
             pop.classList.remove('hidden');
+            pop.style.visibility = 'hidden';
+
+            const rootRect = root.getBoundingClientRect();
             const btnRect = btn.getBoundingClientRect();
-            pop.style.top = `${Math.max(btnRect.bottom + window.scrollY + 4, 4)}px`;
-            pop.style.left = `${Math.max(btnRect.left + window.scrollX, 4)}px`;
+
+            const top = btnRect.bottom - rootRect.top + 4;
+            const left = btnRect.left - rootRect.left;
+
+            pop.style.top = `${Math.max(top, 4)}px`;
+
+            const maxLeft = rootRect.width - pop.offsetWidth - 4;
+            const desiredLeft = Math.max(left, 4);
+            const clampedLeft = Number.isFinite(maxLeft)
+              ? Math.max(4, Math.min(desiredLeft, maxLeft))
+              : desiredLeft;
+            pop.style.left = `${clampedLeft}px`;
+
+            pop.style.visibility = 'visible';
             pop.style.transform = 'translateY(0)';
           } else {
             pop.classList.add('hidden');
             pop.style.transform = 'translateY(100%)';
+            pop.style.visibility = '';
           }
         },
       },
